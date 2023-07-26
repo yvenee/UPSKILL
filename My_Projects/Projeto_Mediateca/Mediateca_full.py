@@ -1,11 +1,199 @@
-from produto import *
-from emprestimo import *
+from datetime import datetime
+import uuid
 
-# Atenção professores : 
-# 1. Nos métodos "obter_produtos", "obter_empréstimo" e outros que enviam o dicionário como print para no terminal não foram alteradas nesta fase do projecto, pois a parte da interface será realizada no tkinter.
-# 2. A data do empréstimo não foi setada automaticamente para permitir que o utilizador faça registo de empréstimos anteriores à data atual.
+##### Produto ######
+
+class Produto:
+
+    estado = ("disponível", "emprestado", "devolvido")
+    tipo = ("Publicação", "Vídeo", "Áudio")
+
+    def __init__(self, titulo, preco, data):
+        self.__id = Produto.criar_id()
+        self.__titulo = titulo       
+        self.__tipo = Produto.escolher_tipo(self)
+        self.__data = data
+        self.__preco = preco
+        self.__estado = Produto.estado[0]
+
+    def criar_id():
+        id = uuid.uuid4()    
+        return str(id)
+
+    def escolher_tipo(self):
+        print("Escolha um tipo de media: ")
+        print("1. Publicação em Papel/Eletrónica")
+        print("2. Vídeo")
+        print("3. Áudio")
+        print("0. Sair")
+
+        while True:
+            opcao = input("Opção: ")
+        
+            if opcao == "1":
+                self.__tipo = Produto.tipo[0]          
+                tipo = input("Indique o tipo de publicação (livro, revista etc.): ").upper()
+                data = input("Indique a data de publicação (dd/mm/aaaa): ")
+                editora = input("Indique a editora: ").upper()
+                autores = input("Indique os autores: ").upper()
+                suporte = input("Indique o suporte da publicação (papel ou eletrónica): ").upper()
+                publicacao = Publicacao(tipo, data, editora, autores, suporte)
+                pub_dict = {
+                                "Tipo de Media" : self.__tipo,
+                                "Tipo de Publicação" : publicacao.tipo_pub,
+                                "Data da Publicação" : publicacao.data_pub,
+                                "Editora" : publicacao.editora,
+                                "Autores" : publicacao.autores,
+                                "Suporte" : publicacao.suporte,
+                                                                }
+                return pub_dict
+
+            elif opcao == "2":
+                self.__tipo = Produto.tipo[1]
+                duracao = input("Indique a duração em minutos: ")
+                tipo = input("Indique o tipo (filme, documentário etc.): ").upper()
+                atores = input("Indique os atores: ").upper()
+                video = Video(duracao, tipo, atores)
+                video_dict = {
+                            "Tipo de Media" : self.__tipo,
+                            "Duração" : video.duracao,
+                            "Tipo de Vídeo" : video.tipo_video,
+                            "Atores" : video.atores,
+                                                            }
+                return video_dict
+
+            elif opcao == "3":
+                self.__tipo = Produto.tipo[2]
+                duracao = input("Indique a duração em minutos: ")
+                suporte = input("Indique o tipo (CD, DVD etc.): ").upper()
+                trilhas = input("Indique as trilhas: ").upper()
+                audio = Audio(duracao, suporte, trilhas)
+                audio_dict = {
+                            "Tipo de Media" : self.__tipo,
+                            "Duração" : audio.duracao,
+                            "Suporte" : audio.suporte,
+                            "Trilhas" : audio.trilhas,
+                                                            }
+                return audio_dict
+            
+            elif opcao == "0":
+                break
+
+            else: 
+                print("Opção incorreta!")
 
 
+
+    def get_id(self):
+        return self.__id
+
+    def get_titulo(self):
+        return self.__titulo
+    
+    def set_titulo(self, titulo):
+        self.__titulo = titulo
+    
+    def get_tipo(self):
+        return self.__tipo
+    
+    def set_tipo(self, tipo):
+        self.__tipo = tipo
+
+    def get_data(self):
+        return self.__data
+    
+    def set_data(self, data):
+        self.__data = data    
+
+    def get_preco(self):
+        return self.__preco
+
+    def set_preco(self, preco):
+        self.__preco = preco    
+
+    def get_estado(self):
+        return self.__estado
+    
+    def set_estado(self, estado):
+        self.__estado = estado 
+
+class Publicacao:
+
+    def __init__(self, tipo_pub, data_pub, editora, autores, suporte):        
+        self.tipo_pub = tipo_pub
+        self.data_pub = data_pub
+        self.editora = editora
+        self.autores = autores
+        self.suporte = suporte
+
+class Video:
+
+    def __init__(self, duracao, tipo_video, atores):        
+        self.duracao = duracao
+        self.tipo_video = tipo_video
+        self.atores = atores
+
+    
+class Audio:
+
+    def __init__(self, duracao, suporte, trilhas):        
+        self.duracao = duracao
+        self.suporte = suporte
+        self.trilhas = trilhas
+
+
+##### Empréstimos ######
+
+class Emprestimo:
+
+
+    def __init__(self, nome, data_emp, data_devol):
+        self.__id = Emprestimo.criar_id()
+        self.__produto = None       
+        self.__nome = nome
+        self.__data_emp = data_emp
+        self.__data_devol = data_devol
+    
+
+    def criar_id():
+        id = uuid.uuid4()    
+        return str(id)
+    
+    def get_id(self):
+        return self.__id
+
+    def get_produto(self):
+        return self.__produto
+
+    def set_produto(self, produto):
+        self.__produto = produto     
+    
+    def get_nome(self):
+        return self.__nome
+    
+    def set_nome(self, nome):
+        self.__nome = nome
+
+    def get_data_emp(self):
+        return self.__data_emp
+    
+    def set_data_emp(self, data_emp):
+        self.__data_emp = data_emp   
+
+    def get_data_devol(self):
+        return self.__data_devol
+    
+    def set_data_devol(self, data_devol):
+        self.__data_devol = data_devol    
+  
+    def get_estado(self):
+        return self.__estado
+    
+    def set_estado(self, estado):
+        self.__estado = estado
+
+
+##### Gestão ######
 
 class Gestao:
     
@@ -15,27 +203,6 @@ class Gestao:
         self.produtos = []
         self.emprestimos = []
 
-    @staticmethod # usado para não ser necessário passar o self como argumento       
-    def validar_float(valor):        
-        try:
-            float(valor)
-            return True
-        except ValueError:
-            return False
-
-    @staticmethod
-    def validar_data(data):
-        try:
-            dia, mes, ano = map(int, data.split('/'))
-            if 1 <= dia <= 31 and 1 <= mes <= 12 and ano >= 1900:
-                # Verifica se a data é válida usando o datetime.strptime
-                formato = "%d/%m/%Y"
-                datetime.strptime(data, formato)
-                return True
-            return False
-        except ValueError:
-            return False
-            
 ############################################################################################# 
 ####################################  GESTÃO DE PRODUTOS  ################################### 
 ############################################################################################# 
@@ -148,29 +315,13 @@ class Gestao:
                                 print("Opção incorreta!")
 
                     elif op == "3":
-                        formato = "%d/%m/%Y"  # Formato esperado para a data
-                        while True:
-                            nova_data = input("Insira a nova data de aquisição (dd/mm/aaaa): ") 
-                            if self.validar_data(nova_data):
-                                break
-                            print("Data inválida. Digite uma data válida no formato dd/mm/aaaa.")
-                        data_aqui_date = datetime.strptime(nova_data, formato).date()
-                        if data_aqui_date > datetime.now().date():
-                            print("A data da aquisição não pode ser maior que a data do dia atual!")
-                            return
-                        else:                        
-                            p["Data_Aquisição"] = nova_data
-                            print("A data de aquisição do produto foi atualizada com sucesso!")
-                            return
+                        nova_data = input("Insira a nova data de aquisição (dd/mm/aaaa): ") 
+                        p["Data_Aquisição"] = nova_data
+                        print("A data de aquisição do produto foi atualizada com sucesso!")
+                        return
 
                     elif op == "4":
-                        while True:
-                            novo_preco = input("Insira o novo preço: ")
-                            if self.validar_float(novo_preco):
-                                novo_preco = float(novo_preco)
-                                break
-                            print("Preço inválido. Digite um número válido!")
-                                            
+                        novo_preco = float(input("Insira o novo preço "))
                         p["Preço"] = novo_preco
                         print("O preço do produto foi atualizado com sucesso!")
                         return
@@ -389,4 +540,219 @@ class Gestao:
                 for prod in self.produtos:
                     if prod["Título"] == produto:
                         print("Estado Atual:", prod["Estado"])
-                          
+                        break
+                        
+
+##### Menu ######
+
+if __name__ == "__main__":
+
+    gestao = Gestao()
+    formato = "%d/%m/%Y"    
+
+    
+    def menu_principal():
+
+        while True:
+        
+            print("#############  Menu  #####################")
+            print("1. Gestão de Produtos")
+            print("2. Gestão de Empréstimos")
+            print("3. Relatórios")
+            print("0. Sair")
+       
+            opcao = input("Digite o número da opção desejada: ")
+            print()
+            
+            if opcao == "1":
+                menu_gestão_produtos()      
+
+            elif opcao == "2":
+                menu_gestão_emprestimos()
+
+            elif opcao == "3":
+                menu_relatorios()
+        
+            elif opcao == "0":
+                print("A sair...")
+                break
+
+            else:
+                print("Opção inválida. Tente novamente.")
+
+    def menu_gestão_produtos():
+        
+        while True:
+            print("#############  Menu Gestão de Produtos  #####################")
+            print("1. Criar Produtos")
+            print("2. Obter Produtos")
+            print("3. Atualizar Produtos")
+            print("4. Eliminar Produtos")
+            print("0. Voltar")
+
+            opcao = input("Digite o número da opção desejada: ")
+            print()
+            
+            if opcao == "1":
+                titulo = input("Digite o título do produto: ").upper()
+                for p in gestao.produtos:
+                    if p["Título"] == titulo:                
+                        print("Já existe um produto com o mesmo título!")
+                        break
+                        
+                else:
+                    preco = float(input("Digite o preço do produto: "))
+                    formato = "%d/%m/%Y"  # Formato esperado para a data
+                    data_aquisicao = input("Digite a data de aquisição do produto (dd/mm/aaaa): ")
+                    data_aqui_date = datetime.strptime(data_aquisicao, formato).date()
+                    if data_aqui_date > datetime.now().date():
+                        print("A data da aquisição não pode ser maior que a data do dia atual!")
+                        return
+                    else:
+                        produto = Produto(titulo, preco, data_aqui_date)
+                        gestao.criar_produto(produto)               
+
+            elif opcao == "2":                
+                gestao.obter_produtos()
+
+            elif opcao == "3":
+                titulo = input("Digite o título do produto: ").upper()               
+                gestao.atualizar_produto(titulo)
+                
+            elif opcao == "4":
+                titulo = input("Digite o título do produto: ").upper()
+                gestao.eliminar_produto(titulo)
+
+            elif opcao == "0":                
+                break
+
+            else:
+                print("Opção inválida. Tente novamente.")
+
+    def menu_gestão_emprestimos():        
+        
+        while True:
+
+            print("#############  Menu Gestão de Empréstimos  #####################")
+            print("1. Criar Empréstimo")
+            print("2. Obter Empréstimos")
+            print("3. Atualizar Empréstimos")
+            print("4. Entregar Produtos Emprestados")
+            print("5. Eliminar Empréstimos")
+            print("0. Voltar")
+
+            opcao = input("Digite o número da opção desejada: ")
+            print()
+            formato = "%d/%m/%Y"  # Formato esperado para a data
+
+            if opcao == "1":
+                nome = input("Digite o nome do tomador do empréstimo: ").upper()                
+                data_emprestimo = input("Digite a data do empréstimo (dd/mm/aaaa): ")
+                data_emp_date = datetime.strptime(data_emprestimo, formato).date()
+                # Verifica se a data do empréstimo é posterior que a data atual
+                if data_emp_date > datetime.now().date():
+                    print("A data do empréstimo não pode ser maior que a data do dia atual!")
+                    return 
+                # Verifica se a data de empréstimo é anterior à data de aquisição de algum produto
+                for p in gestao.produtos:
+                    if data_emp_date < p["Data_Aquisição"]:
+                        print("A data do empréstimo não pode ser anterior à data da aquisição do produto!")
+                        return               
+            
+                data_devolucao = input("Digite a data da devolução do empréstimo (dd/mm/aaaa): ")
+                data_devol_date = datetime.strptime(data_devolucao, formato).date()
+                # Verifica se a data de devolução é anterior à data de empréstimo
+                if data_devol_date < data_emp_date:
+                    print("A data de devolução do empréstimo não pode ser menor que a data do empréstimo!")
+                    return
+                else:
+                    emprestimo = Emprestimo(nome, data_emprestimo, data_devolucao)
+                    gestao.criar_emprestimo(emprestimo)
+                    
+
+            elif opcao == "2":    
+                gestao.obter_emprestimos()
+
+            elif opcao == "3":
+                titulo = input("Digite o título do produto: ").upper()          
+                gestao.atualizar_emprestimo(titulo)
+                
+            elif opcao == "4":
+                titulo = input("Digite o título do produto: ").upper()
+                data_devolucao = input("Digite a data da devolução do empréstimo (dd/mm/aaaa): ")
+                data_devol_date = datetime.strptime(data_devolucao, formato).date()
+                # Verifica se a data de devolução é anterior à data de empréstimo
+                for e in gestao.emprestimos:
+                    data_emp = datetime.strptime(e["Data_emp"], formato).date()
+                    if data_devol_date < data_emp or data_devol_date > datetime.now().date():
+                        print("A data de devolução do empréstimo não pode ser anterior à data do empréstimo ou superior à data de hoje!")
+                        return
+                    else:        
+                        gestao.entregar_produto(titulo, data_devol_date)
+                        return
+
+            elif opcao == "5":
+                titulo = input("Digite o título do produto: ").upper()
+                gestao.eliminar_emprestimo(titulo)
+
+            elif opcao == "0":                
+                break
+
+            else:
+                print("Opção inválida. Tente novamente.")
+
+    def menu_relatorios():
+
+        while True:
+
+            print("#############  Menu Relatórios  #####################")    
+            print("1. Listar Produtos Multimédia")
+            print("2. Listar Produtos Emprestados")
+            print("3. Histórico de Empréstimos")   
+            print("0. Voltar")
+
+            opcao = input("Digite o número da opção desejada: ")
+            print()
+
+            if opcao == "1":
+                menu_produtos_multimedia()             
+
+            elif opcao == "2":
+                gestao.listar_produtos_emprestados()
+
+            elif opcao == "3":
+                titulo = input("Digite o título do produto: ").upper() 
+                gestao.historico_emprestimos(titulo)  
+        
+            elif opcao == "0":                
+                break
+
+            else:
+                print("Opção inválida. Tente novamente.")
+
+    def menu_produtos_multimedia():
+
+        while True:
+
+            print("#############  Menu Produtos Mutimédia  #####################")   
+            print("1. Listar Produtos por Ordem Alfabética")
+            print("2. Listar Produtos por Data Decrescente")
+            print("0. Voltar")
+
+            opcao = input("Digite o número da opção desejada: ")
+            print()
+
+            if opcao == "1":
+                gestao.listar_produtos_alfa()
+
+            elif opcao == "2":
+                gestao.listar_produtos_data()
+
+            elif opcao == "0":                
+                break
+
+            else:
+                print("Opção inválida. Tente novamente.")
+
+
+    menu_principal()
