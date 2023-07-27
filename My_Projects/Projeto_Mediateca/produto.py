@@ -6,6 +6,7 @@ class Produto:
 
     estado = ("disponível", "emprestado", "devolvido")
     tipo = ("Publicação", "Vídeo", "Áudio")
+    id = 0
 
     def __init__(self, titulo, preco, data):
         self.__id = Produto.criar_id()
@@ -16,8 +17,8 @@ class Produto:
         self.__estado = Produto.estado[0]
 
     def criar_id():
-        id = uuid.uuid4()    
-        return str(id)
+        Produto.id += 1   
+        return str(Produto.id)
 
     def escolher_tipo(self):
         print("Escolha um tipo de media: ")

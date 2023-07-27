@@ -5,6 +5,7 @@ from datetime import datetime
 
 class Emprestimo:
 
+    id = 0
 
     def __init__(self, nome, data_emp, data_devol):
         self.__id = Emprestimo.criar_id()
@@ -15,8 +16,8 @@ class Emprestimo:
     
 
     def criar_id():
-        id = uuid.uuid4()    
-        return str(id)
+        Emprestimo.id += 1
+        return str(Emprestimo.id)
     
     def get_id(self):
         return self.__id

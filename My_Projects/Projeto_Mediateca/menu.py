@@ -2,7 +2,9 @@ from gestao import *
 from produto import *
 from emprestimo import *
 from datetime import datetime
+import os
 
+#os.system(cls)
 if __name__ == "__main__":
 
     gestao = Gestao()
@@ -48,8 +50,16 @@ if __name__ == "__main__":
                 menu_relatorios()
         
             elif opcao == "0":
-                print("A sair...")
-                break
+                while True:
+                    val = input("Tem certeza que deseja sair (S/N)? ").upper()
+                    if val == "N":
+                        menu_principal()
+                    elif val == "S":
+                        print("A sair...")
+                        break
+                    else:
+                        print("Opção inválida!")
+                return
 
             else:
                 print("Opção inválida. Tente novamente.")

@@ -181,20 +181,21 @@ class Gestao:
                     else: 
                         print("Opção incorreta!")
                 
-            else: 
-                print("Produto não encontrado!")
-                return
+        print("Produto não encontrado!")
+        
     
     def eliminar_produto(self, produto):
         for p in self.produtos:
             if p["Título"] == produto:
-                self.produtos.remove(p)
-                print("Produto eliminado com sucesso!")
-                return
-
-            else: 
-                print("Produto não encontrado!")
-        return
+                if p["Estado"] == "emprestado" or p["Estado"] == "devolvido":
+                    print("Não é possível eliminar o produto uma vez emprestado!")
+                    return
+                else: 
+                    self.produtos.remove(p)
+                    print("Produto eliminado com sucesso!")
+                    return
+        print("Produto não encontrado!")
+        
 
 
 ############################################################################################# 
@@ -241,9 +242,8 @@ class Gestao:
                     print("Empréstimo adicionado com sucesso!\n")
                     return
 
-            else: 
-                print("Produto não encontrado!")
-                return
+        print("Produto não encontrado!")
+              
 
     def obter_emprestimos(self):        
         if self.emprestimos:
@@ -304,9 +304,7 @@ class Gestao:
                     else: 
                         print("Opção incorreta!")
                 
-            else: 
-                print("Produto não encontrado!")
-                return
+        print("Produto não encontrado!")
 
     def entregar_produto(self, produto, data_devol):
         for emprestimo in self.emprestimos:
@@ -357,10 +355,8 @@ class Gestao:
                 self.emprestimos.remove(p)
                 print("Empréstimo eliminado com sucesso!")
                 return
-
-            else: 
-                print("Empréstimo não encontrado!")
-        return
+        print("Empréstimo não encontrado!")
+        
 
 ############################################################################################# 
 ######################################  RELARÓRIOS  ######################################### 

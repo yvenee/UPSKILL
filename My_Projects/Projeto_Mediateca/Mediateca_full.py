@@ -195,6 +195,13 @@ class Emprestimo:
 
 ##### Gestão ######
 
+
+# Atenção professores : 
+# 1. Nos métodos "obter_produtos", "obter_empréstimo" e outros que enviam o dicionário como print para no terminal não foram alteradas nesta fase do projecto, pois a parte da interface será realizada no tkinter.
+# 2. A data do empréstimo não foi setada automaticamente para permitir que o utilizador faça registo de empréstimos anteriores à data atual.
+
+
+
 class Gestao:
     
     # contrutores
@@ -203,6 +210,27 @@ class Gestao:
         self.produtos = []
         self.emprestimos = []
 
+    @staticmethod # usado para não ser necessário passar o self como argumento       
+    def validar_float(valor):        
+        try:
+            float(valor)
+            return True
+        except ValueError:
+            return False
+
+    @staticmethod
+    def validar_data(data):
+        try:
+            dia, mes, ano = map(int, data.split('/'))
+            if 1 <= dia <= 31 and 1 <= mes <= 12 and ano >= 1900:
+                # Verifica se a data é válida usando o datetime.strptime
+                formato = "%d/%m/%Y"
+                datetime.strptime(data, formato)
+                return True
+            return False
+        except ValueError:
+            return False
+            
 ############################################################################################# 
 ####################################  GESTÃO DE PRODUTOS  ################################### 
 ############################################################################################# 
@@ -315,13 +343,29 @@ class Gestao:
                                 print("Opção incorreta!")
 
                     elif op == "3":
-                        nova_data = input("Insira a nova data de aquisição (dd/mm/aaaa): ") 
-                        p["Data_Aquisição"] = nova_data
-                        print("A data de aquisição do produto foi atualizada com sucesso!")
-                        return
+                        formato = "%d/%m/%Y"  # Formato esperado para a data
+                        while True:
+                            nova_data = input("Insira a nova data de aquisição (dd/mm/aaaa): ") 
+                            if self.validar_data(nova_data):
+                                break
+                            print("Data inválida. Digite uma data válida no formato dd/mm/aaaa.")
+                        data_aqui_date = datetime.strptime(nova_data, formato).date()
+                        if data_aqui_date > datetime.now().date():
+                            print("A data da aquisição não pode ser maior que a data do dia atual!")
+                            return
+                        else:                        
+                            p["Data_Aquisição"] = nova_data
+                            print("A data de aquisição do produto foi atualizada com sucesso!")
+                            return
 
                     elif op == "4":
-                        novo_preco = float(input("Insira o novo preço "))
+                        while True:
+                            novo_preco = input("Insira o novo preço: ")
+                            if self.validar_float(novo_preco):
+                                novo_preco = float(novo_preco)
+                                break
+                            print("Preço inválido. Digite um número válido!")
+                                            
                         p["Preço"] = novo_preco
                         print("O preço do produto foi atualizado com sucesso!")
                         return
@@ -540,7 +584,7 @@ class Gestao:
                 for prod in self.produtos:
                     if prod["Título"] == produto:
                         print("Estado Atual:", prod["Estado"])
-                        break
+                          
                         
 
 ##### Menu ######
@@ -550,6 +594,22 @@ if __name__ == "__main__":
     gestao = Gestao()
     formato = "%d/%m/%Y"    
 
+    def validar_float(valor):        
+        try:
+            float(valor)
+            return True
+        except ValueError:
+            return False
+
+    def validar_data(data):
+        try:
+            dia, mes, ano = map(int, data.split('/'))
+            if 1 <= dia <= 31 and 1 <= mes <= 12 and ano >= 1900:
+                return True
+            return False
+        except:
+            return False
+        
     
     def menu_principal():
 
@@ -601,9 +661,18 @@ if __name__ == "__main__":
                         break
                         
                 else:
-                    preco = float(input("Digite o preço do produto: "))
+                    preco = input("Digite o preço do produto: ")
+                    while not validar_float(preco):
+                        print("Preço inválido. Digite um número válido!")
+                        preco = input("Digite o preço do produto: ")
+                    preco = float(preco)
                     formato = "%d/%m/%Y"  # Formato esperado para a data
-                    data_aquisicao = input("Digite a data de aquisição do produto (dd/mm/aaaa): ")
+                    while True:
+                        data_aquisicao = input("Indique a data de aquisição (dd/mm/aaaa): ")
+                        if validar_data(data_aquisicao):
+                            break
+                        print("Data inválida. Digite uma data válida no formato dd/mm/aaaa.")
+
                     data_aqui_date = datetime.strptime(data_aquisicao, formato).date()
                     if data_aqui_date > datetime.now().date():
                         print("A data da aquisição não pode ser maior que a data do dia atual!")
