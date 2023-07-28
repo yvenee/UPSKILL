@@ -1,6 +1,9 @@
 import uuid
 from datetime import datetime
+import os
 
+def limpar_terminal():
+    os.system('clear')
 
 class Produto:
 
@@ -21,15 +24,15 @@ class Produto:
         return str(Produto.id)
 
     def escolher_tipo(self):
-        print("Escolha um tipo de media: ")
+        print("Escolha um tipo de media: \n")
         print("1. Publicação em Papel/Eletrónica")
         print("2. Vídeo")
-        print("3. Áudio")
-        print("0. Sair")
+        print("3. Áudio\n")
 
         while True:
             opcao = input("Opção: ")
-        
+            print()
+
             if opcao == "1":
                 self.__tipo = Produto.tipo[0]          
                 tipo = input("Indique o tipo de publicação (livro, revista etc.): ").upper()
@@ -74,13 +77,10 @@ class Produto:
                             "Suporte" : audio.suporte,
                             "Trilhas" : audio.trilhas,
                                                             }
-                return audio_dict
-            
-            elif opcao == "0":
-                break
-
+                return audio_dict         
+        
             else: 
-                print("Opção incorreta!")
+                print("Opção incorreta!\n")
 
 
 
