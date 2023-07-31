@@ -7,13 +7,14 @@ class Produto:
     estado = ("disponível", "emprestado", "devolvido")
     tipo = ("Publicação", "Vídeo", "Áudio")
 
-    def __init__(self, titulo, preco, data):
+    def __init__(self, tipo, media, titulo, preco, data):
         self.__id = Produto.criar_id()
-        self.__titulo = titulo       
-        self.__tipo = Produto.escolher_tipo(self)
-        self.__data = data
-        self.__preco = preco
-        self.__estado = Produto.estado[0]
+        self.titulo = titulo       
+        self.tipo = tipo
+        self.media = media
+        self.data = data
+        self.preco = preco
+        self.estado = Produto.estado[0]
 
     def criar_id():
         id = uuid.uuid4()    
