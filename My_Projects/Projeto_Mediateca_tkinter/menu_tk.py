@@ -9,20 +9,21 @@ from datetime import datetime
 from gestao import *
 from produto import *
 from emprestimo import *
+from produto_tk import *
 
 
 class MediatecaApp(ThemedTk):
     def __init__(self):
         super().__init__()
 
-        self.set_theme("radiance")
+        self.set_theme("radiance") # Define o tema da página
 
         self.title("Mediateca")
         self.minsize(530, 400)  # Define o tamanho mínimo da janela
-        self.maxsize(530, 400)  # Define o tamanho máximo da janela igual ao tamanho mínimo
+        self.maxsize(700, 800)  # Define o tamanho máximo da janela igual ao tamanho mínimo
         self.resizable(False, False)  # Impede o redimensionamento da janela
 
-        # Create a custom style for the button
+        # Cria uma style para os botões
         style = ttk.Style()
         style.configure("My.TButton", width=80, height=100)
 
@@ -34,6 +35,8 @@ class MediatecaApp(ThemedTk):
         self.frame_gestao_emprestimos = FrameGestaoEmprestimos(self)
         self.frame_relatorios = FrameRelatorios(self)
         self.frame_sair = FrameSair(self)
+        self.criar_produto_frame = None
+
 
         # Posicione os frames usando o gerenciador de geometria grid
         self.frame_imagem.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
@@ -78,12 +81,12 @@ class FrameGestaoProdutos(tk.Frame):
         botao_gestao_produtos.pack(fill=tk.BOTH, padx=5, pady=5)
 
     def menu_gestao_produtos(self):
-         # Clear any existing frames within the main frame
+        # Limpa a frame atual
         self.master.clear_frames()
 
         # Create the product management frame within the main window
         self.master.menu_gestao_produtos_frame = MenuGestaoProdutos(self.master)
-        self.master.menu_gestao_produtos_frame.grid(row=1, column=0, padx=10, pady=5)
+        self.master.menu_gestao_produtos_frame.grid(row=10, column=0, padx=10, pady=5)
 
 
 class MenuGestaoProdutos(tk.Frame):
@@ -97,7 +100,7 @@ class MenuGestaoProdutos(tk.Frame):
             widget.pack_forget()
             
         # Botão "Criar Produtos"
-        botao_criar_produtos = ttk.Button(self, text="Criar Produto", command=self.criar_produtos, style="My.TButton", width=25)        
+        botao_criar_produtos = ttk.Button(self, text="Criar Produto", command=self.criar_produto, style="My.TButton", width=25)        
         botao_criar_produtos.grid(row=0, column=0, padx=5, pady=5)
 
         # Botão "Listar Produtos"
@@ -121,17 +124,24 @@ class MenuGestaoProdutos(tk.Frame):
         botao_sair.grid(row=2, column=1, padx=10, pady=5)
 
 
-    def criar_produtos(self):
-        # Implemente a lógica para a criação de produtos aqui
-        print("Criar Produtos selecionado!")
+    def criar_produto(self):
 
+        # Limpa a frame atual e cria uma nova instância de Produto_Frame
+        self.master.clear_frames()
+        self.master.criar_produto_frame = Criar_Produto_Frame(self.master)
+        self.master.criar_produto_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
+ 
+      
     def listar_produtos(self):
-        # Implemente a lógica para a listagem de produtos aqui
-        print("Listar Produtos selecionado!")
+        
+        self.master.clear_frames()
+        self.master.listar_produtos_frame = Listar_Produtos_Frame(self.master, gestao)
+        self.master.listar_produtos_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
 
     def atualizar_produto(self):
-        # Implemente a lógica para a atualização de produtos aqui
-        print("Atualizar Produto selecionado!")
+        """ self.master.clear_frames()
+        self.master.atualizar_produtos_frame = Atualizar_Produto_Frame(self.master)
+        self.master.atualizar_produtos_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew") """
 
     def eliminar_produto(self):
         # Implemente a lógica para a eliminação de produtos aqui

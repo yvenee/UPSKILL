@@ -43,14 +43,14 @@ class Gestao:
     def criar_produto(self, produto):
         dict_produtos = {
                             "ID" : produto.get_id(),
-                            "Título" : produto.get_titulo(),
-                            "Media" : produto.get_tipo(),
-                            "Data_Aquisição" : produto.get_data(),
-                            "Preço" : produto.get_preco(),
-                            "Estado" : produto.get_estado()
+                            "Título" : produto.titulo,
+                            "Tipo" : produto.tipo,
+                            "Media" : produto.tipo_media,
+                            "Data_Aquisição" : produto.data,
+                            "Preço" : produto.preco,
+                            "Estado" : produto.estado
                                                             }
         self.produtos.append(dict_produtos) 
-        print("Produto adicionado com sucesso!\n")
         
     
     def obter_produtos(self):
@@ -185,17 +185,10 @@ class Gestao:
                 print("Produto não encontrado!")
                 return
     
-    def eliminar_produto(self, produto):
+    def eliminar_produto(self, produto_id):
         for p in self.produtos:
-            if p["Título"] == produto:
-                self.produtos.remove(p)
-                print("Produto eliminado com sucesso!")
-                return
-
-            else: 
-                print("Produto não encontrado!")
-        return
-
+            self.produtos.remove(p)
+            
 
 ############################################################################################# 
 ##################################  GESTÃO DE EMPRÉSTIMOS  ################################## 
