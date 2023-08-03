@@ -104,16 +104,8 @@ class MenuGestaoProdutos(tk.Frame):
         botao_criar_produtos.grid(row=0, column=0, padx=5, pady=5)
 
         # Botão "Listar Produtos"
-        botao_listar_produtos = ttk.Button(self, text="Listar Produtos", command=self.listar_produtos, style="My.TButton", width=25)
+        botao_listar_produtos = ttk.Button(self, text="Gerir Produtos", command=self.gerir_produtos, style="My.TButton", width=25)
         botao_listar_produtos.grid(row=0, column=1, padx=5, pady=5)
-
-        # Botão "Atualizar Produto"
-        botao_atualizar_produto = ttk.Button(self, text="Atualizar Produto", command=self.atualizar_produto, style="My.TButton", width=25)
-        botao_atualizar_produto.grid(row=1, column=0, padx=5, pady=5)
-
-        # Botão "Eliminar Produto"
-        botao_eliminar_produto = ttk.Button(self, text="Eliminar Produto", command=self.eliminar_produto, style="My.TButton", width=25)
-        botao_eliminar_produto.grid(row=1, column=1, padx=5, pady=5)
 
         # Botão "Voltar"
         botao_voltar = ttk.Button(self, text="Voltar", command=self.voltar_menu_principal, style="My.TButton", width=25)
@@ -132,20 +124,12 @@ class MenuGestaoProdutos(tk.Frame):
         self.master.criar_produto_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
  
       
-    def listar_produtos(self):
+    def gerir_produtos(self):
         
         self.master.clear_frames()
-        self.master.listar_produtos_frame = Listar_Produtos_Frame(self.master, gestao)
-        self.master.listar_produtos_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
-
-    def atualizar_produto(self):
-        """ self.master.clear_frames()
-        self.master.atualizar_produtos_frame = Atualizar_Produto_Frame(self.master)
-        self.master.atualizar_produtos_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew") """
-
-    def eliminar_produto(self):
-        # Implemente a lógica para a eliminação de produtos aqui
-        print("Eliminar Produto selecionado!")
+        self.master.gerir_produtos_frame = Gerir_Produtos_Frame(self.master, gestao)
+        self.master.gerir_produtos_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
+   
 
     def voltar_menu_principal(self):
         # Clear the current frame and show the main menu frame

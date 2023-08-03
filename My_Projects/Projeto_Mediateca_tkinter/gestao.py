@@ -39,7 +39,7 @@ class Gestao:
 ############################################################################################# 
 ####################################  GESTÃO DE PRODUTOS  ################################### 
 ############################################################################################# 
-
+    
     def criar_produto(self, produto):
         dict_produtos = {
                             "ID" : produto.get_id(),
@@ -53,18 +53,22 @@ class Gestao:
         self.produtos.append(dict_produtos) 
         
     
-    def obter_produtos(self):
-        if self.produtos:
-            print("------------ PRODUTOS ------------")
-            for p in self.produtos:
-                print(p)
-            print("----------------------------------")
-        else:
-            print("Não há produtos no momento!")
-
-
-    def atualizar_produto(self, produto):
+    def obter_produto(self, produto_id):
         for p in self.produtos:
+            if p["ID"] == str(produto_id):
+                return p
+
+
+    def atualizar_produto(self, produto_id, novo_produto):
+         # Verifique se o produto com o ID fornecido existe no dicionário
+        if produto_id in self.produtos:
+            # Atualize o produto no dicionário com as informações do novo produto
+            self.produtos[produto_id] = novo_produto
+            return True  # Produto atualizado com sucesso
+        else:
+            return False  # Produto não encontrado, não foi possível atualizar
+
+        """ for p in self.produtos:
             if p["Título"] == produto:
                 print("Qual das opções deseja atualizar:")
                 print("1. Título")
@@ -183,7 +187,7 @@ class Gestao:
                 
             else: 
                 print("Produto não encontrado!")
-                return
+                return """
     
     def eliminar_produto(self, produto_id):
         for p in self.produtos:

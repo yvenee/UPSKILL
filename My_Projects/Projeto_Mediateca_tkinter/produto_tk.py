@@ -37,6 +37,7 @@ class Criar_Produto_Frame(tk.Frame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
+        self.master = master
 
         self.selected_media_widgets = None  # Variável para controlar os widgets selecionados
         self.calendar_data_pub = None  # Adicione esse atributo para acessá-lo em outros métodos
@@ -73,6 +74,9 @@ class Criar_Produto_Frame(tk.Frame):
         self.video_widgets(self.selected_media_frame)
         self.audio_widgets(self.selected_media_frame)
         self.hide_all_widgets()
+
+    def hide_create_product_button(self):
+        self.botao_criar.grid_remove()
 
     def set_theme(self, theme_name):
         self.master.set_theme(theme_name)
@@ -351,10 +355,12 @@ class Criar_Produto_Frame(tk.Frame):
             editora = self.editora.get()
             autores = self.autores.get()
             suporte = self.suporte.get()
+        
             publicacao = Publicacao(tipo_pub, data_pub, editora, autores, suporte)
             produto = Produto(tipo_media, publicacao, titulo, preco, data_aquisicao)
             gestao.criar_produto(produto)
-            self.show_product_details_message(produto, publicacao)
+            gestao.obter_produto("1")
+            self.show_product_details_message(produto, publicacao)          
             
         
         elif tipo_media == "Vídeo":            
@@ -395,48 +401,280 @@ class Criar_Produto_Frame(tk.Frame):
 
 
 class OpcoesProdutoFrame(tk.Frame):
-    def __init__(self, master, treeview):
+    def __init__(self, master, listar_frame, treeview, gestao):
         super().__init__(master)
-        self.treeview = treeview
+
+        self.listar_frame = listar_frame
+        self.tree = treeview
         self.gestao = gestao
         self.create_widgets()
 
     def create_widgets(self):
+    
+        # Botão "Mais Detalhes"
+        botao_mais_detalhes = ttk.Button(self, text="Mais Detalhes", command=self.ver_mais_detalhes)
+        botao_mais_detalhes.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
+
         # Botão "Atualizar"
         botao_atualizar = ttk.Button(self, text="Atualizar", command=self.atualizar_produto)
-        botao_atualizar.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
+        botao_atualizar.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 
         # Botão "Excluir"
         botao_excluir = ttk.Button(self, text="Excluir", command=self.excluir_produto)
-        botao_excluir.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
+        botao_excluir.grid(row=0, column=2, padx=5, pady=5, sticky="ew")     
 
         # Botão "Voltar" para retornar ao menu anterior
         botao_voltar = ttk.Button(self, text="Voltar", command=self.voltar_menu_anterior, style="My.TButton")
-        botao_voltar.grid(row=1, column=0, columnspan=2, padx=10, pady=5)
+        botao_voltar.grid(row=1, column=0, columnspan=3, padx=10, pady=5)
 
-    def atualizar_produto(self):
+            
+    def ver_mais_detalhes(self):
         # Obter o item selecionado na treeview
-        selected_item = self.treeview.selection()
+        selected_item = self.tree.selection()
 
         if not selected_item:
+            messagebox.showwarning("Nenhum Produto Selecionado", "Por favor, selecione um produto.")
             return  # Nenhum item selecionado, não fazer nada
 
         # Obter os valores da linha selecionada
-        item_values = self.treeview.item(selected_item)["values"][1:]  # Excluindo o ID da lista de valores
+        item_values = self.tree.item(selected_item)["values"]
 
-        # Abrir uma janela de diálogo ou outra forma de edição para os campos de entrada
-        # Aqui, você pode usar o código da classe Atualizar_Produto_Frame que forneci anteriormente
-        # ou criar um novo diálogo de edição personalizado.
+        # Obter o ID do tipo de mídia da linha selecionada
+        produto_id = item_values[0]  # O índice 0 corresponde à coluna "ID"
 
+        # Buscar as informações completas do tipo de mídia usando o ID
+        tipo_midia_info = self.gestao.obter_produto(produto_id)
+
+        if not tipo_midia_info:
+            return  # Tipo de mídia não encontrado, não fazer nada     
+       
+
+        if tipo_midia_info["Tipo"] == "Publicação":    
+            message = f"Tipo de Publicação: {tipo_midia_info['Media']['Tipo de Publicação']}\n"
+            message += f"Data da Publicação: {tipo_midia_info['Media']['Data da Publicação']}\n"
+            message += f"Editora: {tipo_midia_info['Media']['Editora']}\n"
+            message += f"Autores: {tipo_midia_info['Media']['Autores']}\n"
+            message += f"Suporte: {tipo_midia_info['Media']['Suporte']}\n" 
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/publication_icon.png"       
+            
+            show_custom_messagebox("Mais Detalhes", message, 300, 350, img)
+
+        elif tipo_midia_info["Tipo"] == "Vídeo":   
+
+            message = f"Tipo de Vídeo: {tipo_midia_info['Media']['Tipo de Vídeo']}\n"
+            message += f"Duração: {tipo_midia_info['Media']['Duração']}\n"
+            message += f"Atores: {tipo_midia_info['Media']['Atores']}\n"
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/video_icon.png"   
+            
+            
+            show_custom_messagebox("Mais Detalhes", message, 300, 350, img)
+
+
+        elif tipo_midia_info["Tipo"] =="Áudio":
+
+            message = f"Tipo de Áudio: {tipo_midia_info['Media']['Suporte']}\n"
+            message += f"Duração: {tipo_midia_info['Media']['Duração']}\n"
+            message += f"Trilhas: {tipo_midia_info['Media']['Trilhas']}\n"
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/audio_icon.png"   
+
+            show_custom_messagebox("Mais Detalhes", message, 300, 350, img)
+
+    def atualizar_produto(self):
+        # Obtém o item selecionado na treeview
+        selected_item = self.tree.focus()
+        
+        if not selected_item:
+            messagebox.showwarning("Nenhum Produto Selecionado", "Por favor, selecione um produto para atualizar.")
+            return
+
+
+        # Obter o ID do produto selecionado
+        produto_id = self.tree.item(selected_item, "values")[0]
+
+        # Cria o novo frame para a página de atualizar produto
+        self.atualizar_produto_frame = Criar_Produto_Frame(self.master.master)  # Passa o self.master.master como parâmetro
+        self.atualizar_produto_frame.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
+
+        # Obtém os valores das colunas para o item selecionado
+        values = self.tree.item(selected_item, "values")
+
+        # Cria o novo frame para a página de atualizar produto
+        self.atualizar_produto_frame = Criar_Produto_Frame(self.master.master)  # Passa o self.master.master como parâmetro
+        self.atualizar_produto_frame.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
+
+        # Preenche os campos com as informações do produto selecionado
+        self.atualizar_produto_frame.entry_titulo.insert(0, values[1])
+        self.atualizar_produto_frame.entry_preco.insert(0, values[2])
+        self.atualizar_produto_frame.calendar_data_aquisicao.set_date(values[3])
+
+        tipo_media = values[3]
+
+        if tipo_media == Produto.tipo[0]:  # Publicação
+            # Configura o combobox para mostrar o tipo de mídia selecionado
+            self.atualizar_produto_frame.combobox_tipo_media.set("Publicação")
+
+            # Preenche os campos específicos para Publicação
+            publicacao_info = self.gestao.obter_produto(produto_id)  # Obter informações adicionais da Publicação
+            self.atualizar_produto_frame.tipo_pub.insert(0, publicacao_info.get("Tipo de Publicação", ""))
+            self.atualizar_produto_frame.calendar_data_pub.set_date(publicacao_info.get("Data da Publicação", ""))
+            self.atualizar_produto_frame.editora.insert(0, publicacao_info.get("Editora", ""))
+            self.atualizar_produto_frame.autores.insert(0, publicacao_info.get("Autores", ""))
+            self.atualizar_produto_frame.suporte.set(publicacao_info.get("Suporte", ""))
+
+
+        elif tipo_media == Produto.tipo[1]:  # Vídeo
+            # Configura o combobox para mostrar o tipo de mídia selecionado
+            self.atualizar_produto_frame.combobox_tipo_media.set("Vídeo")
+
+            # Preenche os campos específicos para Vídeo
+            video_info = self.gestao.obter_produto(produto_id)  # Obter informações adicionais do Vídeo
+            self.atualizar_produto_frame.duracao.insert(0, video_info.get("Duração", ""))
+            self.atualizar_produto_frame.atores.insert(0, video_info.get("Atores", ""))
+            self.atualizar_produto_frame.tipo_video.set(video_info.get("Tipo de Vídeo", ""))
+
+
+        elif tipo_media == Produto.tipo[2]:  # Áudio
+            # Configura o combobox para mostrar o tipo de mídia selecionado
+            self.atualizar_produto_frame.combobox_tipo_media.set("Áudio")
+
+            # Preenche os campos específicos para Áudio
+            audio_info = self.gestao.obter_produto(produto_id)  # Obter informações adicionais do Áudio
+            self.atualizar_produto_frame.duracao.insert(0, audio_info.get("Duração", ""))
+            self.atualizar_produto_frame.trilhas.insert(0, audio_info.get("Trilhas", ""))
+            self.atualizar_produto_frame.tipo_audio.set(audio_info.get("Tipo de Áudio", ""))
+
+        # Botão "Atualizar Produto" para executar a atualização       
+        botao_atualizar_produto = ttk.Button(
+            self.atualizar_produto_frame,
+            text="Atualizar Produto",
+            command=lambda: self.atualizar_produto_info(produto_id, self.atualizar_produto_frame),
+            style="My.TButton",
+            width=68
+        )
+        botao_atualizar_produto.grid(row=10, column=0, columnspan=2, padx=10, pady=3)
+
+
+
+    def atualizar_produto_info(self, item_id, frame):
+        # Obtem os valores dos campos de entrada
+        titulo = frame.entry_titulo.get().upper()
+        preco = frame.entry_preco.get()
+        data_aquisicao = frame.calendar_data_aquisicao.get_date()
+        tipo_media = frame.combobox_tipo_media.get()
+        print('tipo_media')
+        print(tipo_media)
+
+        if frame.verificar_titulo():
+            return
+
+        # Validação do preço para não permitir inserção de um input diferente de um float
+        if not frame.validar_float(preco):
+            frame.label_aviso.config(text="Preço inválido. Digite um número válido!", fg="red")
+            return
+        frame.label_aviso.config(text="")
+        preco = float(preco)
+
+        # Validação da data para não aceitar inserção de uma data posterior a data atual
+        today = datetime.today().date()
+        if data_aquisicao > today:
+            frame.label_aviso.config(text="A data de aquisição não pode ser posterior à data atual!", fg="red")
+            return
+        frame.label_aviso.config(text="")
+
+        # Atualizar informações do produto    
+        produto = self.gestao.obter_produto(item_id)
+        if produto is None:
+            messagebox.showerror("Produto não encontrado", "O produto selecionado não foi encontrado na lista.")
+
+        else:            
+
+            produto = self.gestao.obter_produto(item_id)
+            print("produto antes")
+            print(produto)
+            produto['Título'] = titulo
+            produto['Preço'] = preco
+            produto['Data de Aquisição']= data_aquisicao
+
+            if tipo_media == "Publicação":
+                tipo_pub = frame.tipo_pub.get()
+                data_pub = frame.calendar_data_pub.get_date()
+                editora = frame.editora.get()
+                autores = frame.autores.get()
+                suporte = frame.suporte.get()
+
+                # Obter informações específicas da Publicação
+                produto['Tipo'] = Produto.tipo[0]                
+                publicacao = produto['Media']                
+                publicacao.clear()
+                publicacao['Tipo de Media'] = Produto.tipo[0]
+                publicacao['Tipo de Publicação'] = tipo_pub
+                publicacao['Data da Publicação'] = data_pub
+                publicacao['Editora'] = editora
+                publicacao['Autores'] = autores
+                publicacao['Suporte'] = suporte
+
+            elif tipo_media == "Vídeo":
+                duracao = frame.duracao.get()
+                tipo_video = frame.tipo_video.get()
+                atores = frame.atores.get()
+
+                # Validação do preço para não permitir inserção de um input diferente de um float
+                if not frame.validar_float(duracao):
+                    frame.label_aviso.config(text="Duração inválida. Digite uma número válido!", fg="red")
+                    return
+                frame.label_aviso.config(text="")
+                duracao = float(duracao)
+
+                # Obter informações específicas do Vídeo
+                produto['Tipo'] = Produto.tipo[1]   
+                video = produto['Media']
+                video.clear()
+                video['Tipo de Media'] = Produto.tipo[1]
+                video['Duração'] = duracao
+                video['Tipo de Vídeo']= tipo_video
+                video['Atores'] = atores
+
+            elif tipo_media == "Áudio":
+                duracao = frame.duracao.get()
+                tipo_audio = frame.tipo_audio.get()
+                trilhas = frame.trilhas.get()
+
+                # Validação do preço para não permitir inserção de um input diferente de um float
+                if not frame.validar_float(duracao):
+                    frame.label_aviso.config(text="Duração inválida. Digite um número válido!", fg="red")
+                    return
+                frame.label_aviso.config(text="")
+                duracao = float(duracao)
+
+                # Obter informações específicas do Áudio
+                produto['Tipo'] = Produto.tipo[2]   
+                audio = produto['Media']
+                audio.clear()
+                audio['Tipo de Media'] = Produto.tipo[2]
+                audio['Duração']= duracao
+                audio['Suporte']= tipo_audio
+                audio['Trilhas'] = trilhas
+
+            # Exibir mensagem de sucesso
+            title = "Atualização de Produto"
+            message = "Produto atualizado com sucesso!"
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/success_icon.png" 
+            show_custom_messagebox(title, message, 350, 350, img)
+
+            # Retornar ao menu anterior
+            #self.master.master.create_frames()
+
+     
     def excluir_produto(self):
         # Obter o item selecionado na treeview
-        selected_item = self.treeview.selection()
+        selected_item = self.tree.selection()
 
         if not selected_item:
+            messagebox.showwarning("Nenhum Produto Selecionado", "Por favor, selecione um produto para excluir.")
             return  # Nenhum item selecionado, não fazer nada
 
         # Obter o ID do produto selecionado
-        produto_id = self.treeview.item(selected_item, "values")[0]
+        produto_id = self.tree.item(selected_item, "values")[0]
 
         # Excluir o produto da gestao.produtos usando o ID
         for produto in self.gestao.produtos:
@@ -444,25 +682,23 @@ class OpcoesProdutoFrame(tk.Frame):
                 if produto["Estado"] == "emprestado" or produto["Estado"] == "devolvido":
                     message = "Não é possível exluir um produto que já foi emprestado!"
                     img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/error_icon.png" 
-                    show_custom_messagebox("Erro!", message, 300, 300, img)                 
+                    show_custom_messagebox("Produto", message, 300, 300, img)                 
                     return
                 else:                     
                     self.gestao.eliminar_produto(produto_id)
                     message = "Produto excluído com sucesso!"
                     img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/success_icon.png" 
-                    show_custom_messagebox("Produto Excluído!", message, 300, 300, img)    
+                    show_custom_messagebox("Produto", message, 300, 300, img)    
 
         # Excluir o item selecionado na treeview
-        self.treeview.delete(selected_item)
+        self.tree.delete(selected_item)
 
     def voltar_menu_anterior(self):
-        # Chame a função na classe MenuGestaoProdutos que retorna ao menu principal
-        #self.master.create_frames()
-        return
-        # PAREI AQUI... VER COMO RETORNAR PARA O MENU ANTERIOR E IMPLEMNTAR A FUNÇÃO DE ATUALIZAR PRODUTO.
+        # Chame a função na classe mestre (ou seja, a janela principal) que retorna ao menu anterior
+        self.master.master.clear_frames()
+        self.master.master.create_frames()
 
-
-class Listar_Produtos_Frame(tk.Frame):
+class Gerir_Produtos_Frame(tk.Frame):
     def __init__(self, master, gestao, **kwargs):
         super().__init__(master, **kwargs)
         self.gestao = gestao
@@ -505,8 +741,9 @@ class Listar_Produtos_Frame(tk.Frame):
         scrollbar.grid(row=1, column=1, sticky='ns')       
 
         # Adicionar a frame de opções (Atualizar e Excluir)
-        opcoes_frame = OpcoesProdutoFrame(self, self.tree)
+        opcoes_frame = OpcoesProdutoFrame(self, self, self.tree, self.gestao)
         opcoes_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=5, sticky="ew")
+
 
     def populate_treeview(self):
         # Limpar os itens existentes no treeview (caso já tenha algum)

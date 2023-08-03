@@ -12,7 +12,8 @@ class Produto:
         self.__id = Produto.criar_id()
         self.titulo = titulo       
         self.tipo = tipo
-        self.tipo_media = Produto.escolher_tipo(self, media)       
+        self.tipo_media = None
+        Produto.escolher_tipo(self, media)           
         self.data = data
         self.preco = preco
         self.estado = Produto.estado[0]
@@ -21,9 +22,9 @@ class Produto:
         Produto.id += 1   
         return str(Produto.id)
 
-    def escolher_tipo(self, media):
-    
-            if self.tipo == "Publicacao":              
+    def escolher_tipo(self, media):            
+
+            if self.tipo == "Publicação":            
                 
                 pub_dict = {
                                 "Tipo de Media" : self.tipo,
@@ -31,9 +32,10 @@ class Produto:
                                 "Data da Publicação" : media.data_pub,
                                 "Editora" : media.editora,
                                 "Autores" : media.autores,
-                                "Suporte" : media.suporte,
-                                                                }
-                return pub_dict
+                                "Suporte" : media.suporte,}
+                
+                self.tipo_media = pub_dict
+            
 
             elif self.tipo == "Vídeo":
                 
@@ -43,7 +45,7 @@ class Produto:
                             "Tipo de Vídeo" : media.tipo_video,
                             "Atores" : media.atores,
                                                             }
-                return video_dict
+                self.tipo_media = video_dict
 
             elif self.tipo == "Áudio":
                 
@@ -53,7 +55,7 @@ class Produto:
                             "Suporte" : media.suporte,
                             "Trilhas" : media.trilhas,
                                                             }
-                return audio_dict
+                self.tipo_media = audio_dict
 
 
 
