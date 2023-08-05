@@ -327,9 +327,28 @@ class Criar_Produto_Frame(tk.Frame):
         preco = self.entry_preco.get()
         data_aquisicao = self.calendar_data_aquisicao.get_date()
 
+        # Validação da inserção do título
+        if not titulo:
+            self.label_aviso.config(text="Insira o título do produto!", fg="red")
+            return
+        self.label_aviso.config(text="") 
+
+        # Validação se já existe um produto com o mesmo título
         if self.verificar_titulo():
             return            
-
+        
+        # Validação da inserção do preço
+        if not preco:
+            self.label_aviso.config(text="Insira o preço do produto!", fg="red")
+            return
+        self.label_aviso.config(text="")
+        
+        # Validação da inserção da data de aquisição
+        if not data_aquisicao:
+            self.label_aviso.config(text="Insira a data de aquisição do produto!", fg="red")
+            return
+        self.label_aviso.config(text="")
+                
         # Validação do preço para não permitir inserção de um input diferente de um float
         if not self.validar_float(preco):
             self.label_aviso.config(text="Preço inválido. Digite um número válido!", fg="red")
@@ -344,9 +363,14 @@ class Criar_Produto_Frame(tk.Frame):
             return
         self.label_aviso.config(text="")  
 
-         # Acesso ao Input de Tipo de Media 
+        # Acesso ao Input de Tipo de Media 
         tipo_media = self.combobox_tipo_media.get()       
 
+        # Validação da inserção do Tipo de Media
+        if not tipo_media:
+            self.label_aviso.config(text="Insira o tipo de media do produto!", fg="red")
+            return
+        self.label_aviso.config(text="")
         
         if tipo_media == "Publicação":
             tipo_media = Produto.tipo[0]
@@ -355,7 +379,37 @@ class Criar_Produto_Frame(tk.Frame):
             editora = self.editora.get()
             autores = self.autores.get()
             suporte = self.suporte.get()
-        
+
+            # Validação da inserção do Tipo de Publicação
+            if not tipo_pub:
+                self.label_aviso.config(text="Insira o tipo de publicação do produto!", fg="red")
+                return
+            self.label_aviso.config(text="")
+
+            # Validação da inserção da Data de Publicação
+            if not data_pub:
+                self.label_aviso.config(text="Insira a data da publicação do produto!", fg="red")
+                return
+            self.label_aviso.config(text="")
+
+            # Validação da inserção da Editora
+            if not editora:
+                self.label_aviso.config(text="Insira a editora do produto!", fg="red")
+                return
+            self.label_aviso.config(text="")
+
+            # Validação da inserção dos Autores
+            if not autores:
+                self.label_aviso.config(text="Insira os autores do produto!", fg="red")
+                return
+            self.label_aviso.config(text="")
+
+            # Validação da inserção do Suporte
+            if not suporte:
+                self.label_aviso.config(text="Insira o suporte do produto!", fg="red")
+                return
+            self.label_aviso.config(text="") 
+
             publicacao = Publicacao(tipo_pub, data_pub, editora, autores, suporte)
             produto = Produto(tipo_media, publicacao, titulo, preco, data_aquisicao)
             gestao.criar_produto(produto)
@@ -367,16 +421,34 @@ class Criar_Produto_Frame(tk.Frame):
         
             tipo_media = Produto.tipo[1]
             duracao = self.duracao.get()
-            
-            # Validação do preço para não permitir inserção de um input diferente de um float
-            if not self.validar_float(duracao):
-                self.label_aviso.config(text="Duração inválida. Digite uma número válido!", fg="red")
-                return
-            self.label_aviso.config(text="")            
             duracao = float(duracao)
-
             tipo = self.tipo_video.get()            
             atores = self.atores.get().upper() 
+
+            # Validação da duração para não permitir inserção de um input diferente de um float
+            if not self.validar_float(duracao):
+                self.label_aviso.config(text="Duração inválida. Digite uma número válido!", fg="red")
+                return            
+            self.label_aviso.config(text="")   
+
+            # Validação da inserção da Duração
+            if not duracao:
+                self.label_aviso.config(text="Insira duração do produto!", fg="red")
+                return
+            self.label_aviso.config(text="")
+
+            # Validação da inserção da Tipo de Vídeo
+            if not tipo:
+                self.label_aviso.config(text="Insira o tipo de vídeo produto!", fg="red")
+                return
+            self.label_aviso.config(text="")
+
+            # Validação da inserção da Editora
+            if not atores:
+                self.label_aviso.config(text="Insira atores do produto!", fg="red")
+                return
+            self.label_aviso.config(text="")
+
             video = Video(duracao, tipo, atores)
             produto = Produto(tipo_media, video, titulo, preco, data_aquisicao)
             gestao.criar_produto(produto)
@@ -385,52 +457,124 @@ class Criar_Produto_Frame(tk.Frame):
         else:
             tipo_media = Produto.tipo[2]            
             duracao = self.duracao.get()
-
-            # Validação do preço para não permitir inserção de um input diferente de um float
-            if not self.validar_float(duracao):
-                self.label_aviso.config(text="Duração inválida. Digite um número válido!", fg="red")
-                return
-            self.label_aviso.config(text="")            
             duracao = float(duracao)
             tipo = self.tipo_audio.get()             
-            trilhas = self.trilhas.get().upper()            
+            trilhas = self.trilhas.get().upper()  
+
+            # Validação da duração para não permitir inserção de um input diferente de um float
+            if not self.validar_float(duracao):
+                self.label_aviso.config(text="Duração inválida. Digite uma número válido!", fg="red")
+                return            
+            self.label_aviso.config(text="")   
+
+            # Validação da inserção da Duração
+            if not duracao:
+                self.label_aviso.config(text="Insira duração do produto!", fg="red")
+                return
+            self.label_aviso.config(text="")
+
+            # Validação da inserção do Tipo de Áudio
+            if not tipo:
+                self.label_aviso.config(text="Insira o tipo de áudio produto!", fg="red")
+                return
+            self.label_aviso.config(text="")
+
+            # Validação da inserção das Trilhas Sonoras
+            if not trilhas:
+                self.label_aviso.config(text="Insira as trilhas do produto!", fg="red")
+                return
+            self.label_aviso.config(text="")                 
+                     
             audio = Audio(duracao, tipo, trilhas)
             produto = Produto(tipo_media, audio, titulo, preco, data_aquisicao)
             gestao.criar_produto(produto)
             self.show_product_details_message(produto, audio)
 
 
-class OpcoesProdutoFrame(tk.Frame):
-    def __init__(self, master, listar_frame, treeview, gestao):
-        super().__init__(master)
-
-        self.listar_frame = listar_frame
-        self.tree = treeview
+class Gerir_Produtos_Frame(tk.Frame):
+    def __init__(self, master, gestao, **kwargs):
+        super().__init__(master, **kwargs)
         self.gestao = gestao
         self.create_widgets()
-
-    def create_widgets(self):
     
+    def create_widgets(self):
+        # Criar o widget ttk.Treeview
+        columns = ("ID", "Título", "Preço", "Data de Aquisição", "Tipo de Media", "Estado")
+        self.tree = ttk.Treeview(self, columns=columns, show='headings')
+
+        # Definir o cabeçalho das colunas
+        self.tree.heading("ID", text="ID")
+        self.tree.heading("Título", text="Título")
+        self.tree.heading("Preço", text="Preço")
+        self.tree.heading("Data de Aquisição", text="Data de Aquisição")
+        self.tree.heading("Tipo de Media", text="Tipo de Media")
+        self.tree.heading("Estado", text="Estado")
+
+        # Definir a largura das colunas
+        self.tree.column("ID", width=50)
+        self.tree.column("Título", width=200)
+        self.tree.column("Preço", width=100)
+        self.tree.column("Data de Aquisição", width=100)
+        self.tree.column("Tipo de Media", width=100)
+        self.tree.column("Estado", width=100)
+
+        # Adicionar o widget ttk.Treeview à janela
+        self.tree.grid(row=1, column=0, columnspan=4, padx=10, pady=10, sticky="nsew") 
+
+        # Configurar a coluna e a linha para se expandirem corretamente
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
+        # Chamar a função para preencher o treeview com os produtos existentes
+        self.populate_treeview()
+
+        # add a scrollbar
+        scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscroll=scrollbar.set)
+        scrollbar.grid(row=1, column=2, sticky='ns') 
+
         # Botão "Mais Detalhes"
         botao_mais_detalhes = ttk.Button(self, text="Mais Detalhes", command=self.ver_mais_detalhes)
-        botao_mais_detalhes.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
+        botao_mais_detalhes.grid(row=3, column=0, padx=5, pady=5, sticky="ew")
 
         # Botão "Atualizar"
         botao_atualizar = ttk.Button(self, text="Atualizar", command=self.atualizar_produto)
-        botao_atualizar.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
+        botao_atualizar.grid(row=4, column=0, padx=5, pady=5, sticky="ew")
 
         # Botão "Excluir"
         botao_excluir = ttk.Button(self, text="Excluir", command=self.excluir_produto)
-        botao_excluir.grid(row=0, column=2, padx=5, pady=5, sticky="ew")     
+        botao_excluir.grid(row=5, column=0, padx=5, pady=5, sticky="ew")     
 
         # Botão "Voltar" para retornar ao menu anterior
         botao_voltar = ttk.Button(self, text="Voltar", command=self.voltar_menu_anterior, style="My.TButton")
-        botao_voltar.grid(row=1, column=0, columnspan=3, padx=10, pady=5)
+        botao_voltar.grid(row=6, column=0, padx=5, pady=5, sticky="ew")      
+        #botao_voltar.grid(row=4, column=0, columnspan=2, padx=10, pady=5)      
 
-            
+
+    def populate_treeview(self):
+        # Limpar os itens existentes no treeview (caso já tenha algum)
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+
+        # Obter a lista de produtos da gestão
+        produtos = self.gestao.produtos
+
+        # Adicionar os produtos ao treeview
+        for produto in produtos:
+            id = produto["ID"]
+            titulo = produto["Título"]
+            estado = produto["Estado"]
+            preco = f"€ {produto['Preço']:.2f}"
+            data_aquisicao = produto["Data_Aquisição"].strftime("%d/%m/%Y")
+            tipo_midia = produto["Tipo"]
+            self.tree.insert("", "end", values=(id, titulo, preco, data_aquisicao, tipo_midia, estado))
+
+
     def ver_mais_detalhes(self):
+
         # Obter o item selecionado na treeview
         selected_item = self.tree.selection()
+         
 
         if not selected_item:
             messagebox.showwarning("Nenhum Produto Selecionado", "Por favor, selecione um produto.")
@@ -444,12 +588,13 @@ class OpcoesProdutoFrame(tk.Frame):
 
         # Buscar as informações completas do tipo de mídia usando o ID
         tipo_midia_info = self.gestao.obter_produto(produto_id)
-
+      
         if not tipo_midia_info:
             return  # Tipo de mídia não encontrado, não fazer nada     
        
 
-        if tipo_midia_info["Tipo"] == "Publicação":    
+        if tipo_midia_info["Tipo"] == "Publicação":
+            print("Entrou no IF")    
             message = f"Tipo de Publicação: {tipo_midia_info['Media']['Tipo de Publicação']}\n"
             message += f"Data da Publicação: {tipo_midia_info['Media']['Data da Publicação']}\n"
             message += f"Editora: {tipo_midia_info['Media']['Editora']}\n"
@@ -491,15 +636,11 @@ class OpcoesProdutoFrame(tk.Frame):
         # Obter o ID do produto selecionado
         produto_id = self.tree.item(selected_item, "values")[0]
 
-        # Cria o novo frame para a página de atualizar produto
-        self.atualizar_produto_frame = Criar_Produto_Frame(self.master.master)  # Passa o self.master.master como parâmetro
-        self.atualizar_produto_frame.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
-
         # Obtém os valores das colunas para o item selecionado
         values = self.tree.item(selected_item, "values")
-
+       
         # Cria o novo frame para a página de atualizar produto
-        self.atualizar_produto_frame = Criar_Produto_Frame(self.master.master)  # Passa o self.master.master como parâmetro
+        self.atualizar_produto_frame = Criar_Produto_Frame(self.master)  # Passa o self.master.master como parâmetro
         self.atualizar_produto_frame.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
 
         # Preenche os campos com as informações do produto selecionado
@@ -561,8 +702,6 @@ class OpcoesProdutoFrame(tk.Frame):
         preco = frame.entry_preco.get()
         data_aquisicao = frame.calendar_data_aquisicao.get_date()
         tipo_media = frame.combobox_tipo_media.get()
-        print('tipo_media')
-        print(tipo_media)
 
         if frame.verificar_titulo():
             return
@@ -583,14 +722,14 @@ class OpcoesProdutoFrame(tk.Frame):
 
         # Atualizar informações do produto    
         produto = self.gestao.obter_produto(item_id)
+     
         if produto is None:
             messagebox.showerror("Produto não encontrado", "O produto selecionado não foi encontrado na lista.")
 
         else:            
 
             produto = self.gestao.obter_produto(item_id)
-            print("produto antes")
-            print(produto)
+        
             produto['Título'] = titulo
             produto['Preço'] = preco
             produto['Data de Aquisição']= data_aquisicao
@@ -677,9 +816,13 @@ class OpcoesProdutoFrame(tk.Frame):
         produto_id = self.tree.item(selected_item, "values")[0]
 
         # Excluir o produto da gestao.produtos usando o ID
-        for produto in self.gestao.produtos:
-            if produto["ID"] == produto_id:
+        for produto in self.gestao.produtos:           
+            
+            if str(produto["ID"]) == produto_id:
+                print("Entrou IF ID!!")
                 if produto["Estado"] == "emprestado" or produto["Estado"] == "devolvido":
+                    print("Entrou IF Estado!!")
+
                     message = "Não é possível exluir um produto que já foi emprestado!"
                     img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/error_icon.png" 
                     show_custom_messagebox("Produto", message, 300, 300, img)                 
@@ -695,72 +838,5 @@ class OpcoesProdutoFrame(tk.Frame):
 
     def voltar_menu_anterior(self):
         # Chame a função na classe mestre (ou seja, a janela principal) que retorna ao menu anterior
-        self.master.master.clear_frames()
-        self.master.master.create_frames()
-
-class Gerir_Produtos_Frame(tk.Frame):
-    def __init__(self, master, gestao, **kwargs):
-        super().__init__(master, **kwargs)
-        self.gestao = gestao
-        self.create_widgets()
-    
-    def create_widgets(self):
-        # Criar o widget ttk.Treeview
-        columns = ("ID", "Título", "Preço", "Data de Aquisição", "Tipo de Media", "Estado")
-        self.tree = ttk.Treeview(self, columns=columns, show='headings')
-
-        # Definir o cabeçalho das colunas
-        self.tree.heading("ID", text="ID")
-        self.tree.heading("Título", text="Título")
-        self.tree.heading("Preço", text="Preço")
-        self.tree.heading("Data de Aquisição", text="Data de Aquisição")
-        self.tree.heading("Tipo de Media", text="Tipo de Media")
-        self.tree.heading("Estado", text="Estado")
-
-        # Definir a largura das colunas
-        self.tree.column("ID", width=50)
-        self.tree.column("Título", width=200)
-        self.tree.column("Preço", width=100)
-        self.tree.column("Data de Aquisição", width=100)
-        self.tree.column("Tipo de Media", width=100)
-        self.tree.column("Estado", width=100)
-
-        # Adicionar o widget ttk.Treeview à janela
-        self.tree.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky="nsew") 
-
-        # Configurar a coluna e a linha para se expandirem corretamente
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=1)
-
-        # Chamar a função para preencher o treeview com os produtos existentes
-        self.populate_treeview()
-
-        # add a scrollbar
-        scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.tree.yview)
-        self.tree.configure(yscroll=scrollbar.set)
-        scrollbar.grid(row=1, column=1, sticky='ns')       
-
-        # Adicionar a frame de opções (Atualizar e Excluir)
-        opcoes_frame = OpcoesProdutoFrame(self, self, self.tree, self.gestao)
-        opcoes_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=5, sticky="ew")
-
-
-    def populate_treeview(self):
-        # Limpar os itens existentes no treeview (caso já tenha algum)
-        for item in self.tree.get_children():
-            self.tree.delete(item)
-
-        # Obter a lista de produtos da gestão
-        produtos = self.gestao.produtos
-
-        # Adicionar os produtos ao treeview
-        for produto in produtos:
-            id = produto["ID"]
-            titulo = produto["Título"]
-            estado = produto["Estado"]
-            preco = f"€ {produto['Preço']:.2f}"
-            data_aquisicao = produto["Data_Aquisição"].strftime("%d/%m/%Y")
-            tipo_midia = produto["Tipo"]
-            self.tree.insert("", "end", values=(id, titulo, preco, data_aquisicao, tipo_midia, estado))
-
-   
+        self.master.clear_frames()
+        self.master.create_frames()

@@ -1,9 +1,10 @@
 from produto import *
 from emprestimo import *
+from datetime import datetime
+
 
 # Atenção professores : 
-# 1. Nos métodos "obter_produtos", "obter_empréstimo" e outros que enviam o dicionário como print para no terminal não foram alteradas nesta fase do projecto, pois a parte da interface será realizada no tkinter.
-# 2. A data do empréstimo não foi setada automaticamente para permitir que o utilizador faça registo de empréstimos anteriores à data atual.
+# 1. A data do empréstimo não foi setada automaticamente para permitir que o utilizador faça registo de empréstimos anteriores à data atual.
 
 
 
@@ -14,31 +15,75 @@ class Gestao:
    
         self.produtos = []
         self.emprestimos = []
+        self.historico_emprestimos = []
 
-    @staticmethod # usado para não ser necessário passar o self como argumento       
-    def validar_float(valor):        
-        try:
-            float(valor)
-            return True
-        except ValueError:
-            return False
+        # Adicione alguns produtos iniciais à lista
+        self.produtos.append({
+            "ID": 1,
+            "Título": "Livro A",
+            "Tipo" : "Publicação",
+            "Preço": 29.99,
+            "Data_Aquisição": datetime(2022, 12, 1).date(),
+            "Estado": "disponível",
+            "Media": {
+                "Tipo de Media": "Publicação",
+                "Tipo de Publicação": "Livro",
+                "Data da Publicação": datetime(2023, 7, 1).date(),
+                "Editora": "Editora XYZ",
+                "Autores": "Autor 1, Autor 2",
+                "Suporte": "Papel",
+            }
+        })
 
-    @staticmethod
-    def validar_data(data):
-        try:
-            dia, mes, ano = map(int, data.split('/'))
-            if 1 <= dia <= 31 and 1 <= mes <= 12 and ano >= 1900:
-                # Verifica se a data é válida usando o datetime.strptime
-                formato = "%d/%m/%Y"
-                datetime.strptime(data, formato)
-                return True
-            return False
-        except ValueError:
-            return False
+        self.produtos.append({
+            "ID": 2,
+            "Título": "Filme B",
+            "Tipo" : "Vídeo",
+            "Preço": 19.99,
+            "Data_Aquisição": datetime(2020, 7, 4).date(),
+            "Estado": "disponível",
+            "Media": {
+                "Tipo de Media": "Vídeo",
+                "Duração": 120,
+                "Tipo de Vídeo": "Blu-Ray",
+                "Atores": "Ator 1, Ator 2",
+            }
+        })
 
-############################################################################################# 
+        self.produtos.append({
+            "ID": 3,
+            "Título": "Álbum C",
+            "Tipo" : "Áudio",
+            "Preço": 9.99,
+            "Data_Aquisição": datetime(2000, 1, 4).date(),
+            "Estado": "disponível",
+            "Media": {
+                "Tipo de Media": "Áudio",
+                "Duração": 45,
+                "Suporte": "CD",
+                "Trilhas": "Trilha 1, Trilha 2",
+            }
+        })
+
+        self.produtos.append({
+            "ID": 4,
+            "Título": "Álbum D",
+            "Tipo" : "Áudio",
+            "Preço": 20.99,
+            "Data_Aquisição": datetime(2000, 1, 4).date(),
+            "Estado": "emprestado",
+            "Media": {
+                "Tipo de Media": "Áudio",
+                "Duração": 34,
+                "Suporte": "CD",
+                "Trilhas": "Trilha 1, Trilha 2",
+            }
+        })
+
+  
+
 ####################################  GESTÃO DE PRODUTOS  ################################### 
-############################################################################################# 
+ 
     
     def criar_produto(self, produto):
         dict_produtos = {
@@ -55,314 +100,52 @@ class Gestao:
     
     def obter_produto(self, produto_id):
         for p in self.produtos:
-            if p["ID"] == str(produto_id):
+            if str(p["ID"]) == str(produto_id):
                 return p
-
-
-    def atualizar_produto(self, produto_id, novo_produto):
-         # Verifique se o produto com o ID fornecido existe no dicionário
-        if produto_id in self.produtos:
-            # Atualize o produto no dicionário com as informações do novo produto
-            self.produtos[produto_id] = novo_produto
-            return True  # Produto atualizado com sucesso
-        else:
-            return False  # Produto não encontrado, não foi possível atualizar
-
-        """ for p in self.produtos:
-            if p["Título"] == produto:
-                print("Qual das opções deseja atualizar:")
-                print("1. Título")
-                print("2. Tipo de Media")
-                print("3. Data da Aquisição")
-                print("4. Preço")
-                print("0. Voltar")
-
-                while True:
-                    op = input("Digite a opção desejada: ")
-
-                    if op == "1":
-                        novo_titulo = input("Insira o novo título do produto: ").upper() 
-                        for pr in self.produtos:
-                            if pr["Título"] == novo_titulo:
-                                print("Já existe um produto com o mesmo título!")
-                                break
-                        else:
-                            p["Título"] = novo_titulo
-                            print("O título do produto foi atualizado com sucesso!") 
-                            return    
-
-                    elif op == "2":
-                        print("Escolha um dos tipos de media abaixo: ") 
-                        print("1. Publicação") 
-                        print("2. Vídeo") 
-                        print("3. Áudio") 
-                        print("0. Voltar")
-
-                        while True:
-                            opcao = input("Opção: ")
-                            
-                            if opcao == "1":                           
-                                # Limpa o dicionário atual
-                                p["Media"].clear()
-                                # Adiciona as novas chaves e respetivos valores
-                                tipo = input("Indique o tipo de publicação (livro, revista etc.): ").upper()
-                                data = input("Indique a data de publicação (dd/mm/aaaa): ")
-                                editora = input("Indique a editora: ").upper()
-                                autores = input("Indique os autores: ").upper()
-                                suporte = input("Indique o suporte da publicação (papel ou eletrónica): ").upper()
-                                p["Media"]["Tipo de Media"] = Produto.tipo[0]
-                                p["Media"]["Tipo de Publicação"] = tipo
-                                p["Media"]["Data da Publicação"] = data
-                                p["Media"]["Editora"] = editora
-                                p["Media"]["Autores"] = autores
-                                p["Media"]["Suporte"] = suporte
-                                print("As informações do produto foram atualizadas com sucesso!") 
-                                return
-
-                            elif opcao == "2":
-                                # Limpa o dicionário atual
-                                p["Media"].clear()
-                                # Adiciona as novas chaves e respetivos valores
-                                duracao = input("Indique a duração em minutos: ")
-                                tipo = input("Indique o tipo (filme, documentário etc.): ").upper()
-                                atores = input("Indique os atores: ").upper()
-                                p["Media"]["Tipo de Media"] = Produto.tipo[1]
-                                p["Media"]["Duração"] = duracao
-                                p["Media"]["Tipo de Vídeo"] = tipo
-                                p["Media"]["Atores"] = atores
-                                print("As informações do produto foram atualizadas com sucesso!") 
-                                return 
-                                
-                            elif opcao == "3":
-                                # Limpa o dicionário atual
-                                p["Media"].clear()
-                                # Adiciona as novas chaves e respetivos valores
-                                duracao = input("Indique a duração em minutos: ")
-                                suporte = input("Indique o tipo (CD, DVD etc.): ").upper()
-                                trilhas = input("Indique as trilhas: ").upper()
-                                p["Media"]["Tipo de Media"] = Produto.tipo[2]
-                                p["Media"]["Duração"] = duracao
-                                p["Media"]["Suporte"] = suporte
-                                p["Media"]["Trilhas"] = trilhas
-                                print("As informações do produto foram atualizadas com sucesso!")
-                                return
-                            elif opcao == "0":
-                                break
-                            else:
-                                print("Opção incorreta!")
-
-                    elif op == "3":
-                        formato = "%d/%m/%Y"  # Formato esperado para a data
-                        while True:
-                            nova_data = input("Insira a nova data de aquisição (dd/mm/aaaa): ") 
-                            if self.validar_data(nova_data):
-                                break
-                            print("Data inválida. Digite uma data válida no formato dd/mm/aaaa.")
-                        data_aqui_date = datetime.strptime(nova_data, formato).date()
-                        if data_aqui_date > datetime.now().date():
-                            print("A data da aquisição não pode ser maior que a data do dia atual!")
-                            return
-                        else:                        
-                            p["Data_Aquisição"] = nova_data
-                            print("A data de aquisição do produto foi atualizada com sucesso!")
-                            return
-
-                    elif op == "4":
-                        while True:
-                            novo_preco = input("Insira o novo preço: ")
-                            if self.validar_float(novo_preco):
-                                novo_preco = float(novo_preco)
-                                break
-                            print("Preço inválido. Digite um número válido!")
-                         
-                        p["Preço"] = novo_preco
-                        print("O preço do produto foi atualizado com sucesso!")
-                        return
-
-                    elif op == "0":
-                        break
-
-                    else: 
-                        print("Opção incorreta!")
-                
-            else: 
-                print("Produto não encontrado!")
-                return """
     
     def eliminar_produto(self, produto_id):
         for p in self.produtos:
-            self.produtos.remove(p)
+            if str(p["ID"]) == str(produto_id):
+                self.produtos.remove(p)
             
 
-############################################################################################# 
 ##################################  GESTÃO DE EMPRÉSTIMOS  ################################## 
-#############################################################################################
+
  
 
-    def listar_produtos_disponivel(self):
-        print("----------- PRODUTOS DISPONÍVEIS PARA EMPRÉSTIMO ----------")
-        produtos_disponiveis = [p["Título"] for p in self.produtos if p["Estado"] == "disponível"]
-        
-        if produtos_disponiveis:
-            for titulo in produtos_disponiveis:
-                print(titulo)
-        else:
-            print("Não há produtos disponíveis para empréstimo!")
-        print("-----------------------------------------------------------")
+    def criar_emprestimo(self, emprestimo, produto_id):
 
-    def criar_emprestimo(self, emprestimo):
-       
-        self.listar_produtos_disponivel()
-        produto = input("Digite o título do produto a emprestar: ").upper()  
-        for p in self.produtos:
-            # verifica se existe o produto na lista produto        
-            if p["Título"] == produto:
-                # verifica se o produto tem o estado emprestado
-                if p["Estado"] == "emprestado":
-                    print("Produto possui empréstimo em aberto!")
-                    return
-                else:
-                    emprestimo.set_produto(produto)                   
-                    p["Estado"] = Produto.estado[1]
+        for p in self.produtos:             
+            if str(p["ID"]) == produto_id:               
+                emprestimo.set_produto(p)                   
+                p["Estado"] = Produto.estado[1]
+
+                dict_emprestimo = {
+                                    "Produto_ID" : p["ID"],
+                                    "Produto" : emprestimo.get_produto(),
+                                    "Empréstimo_ID" : emprestimo.get_id(),
+                                    "Nome" : emprestimo.get_nome(),
+                                    "Data_emp" : emprestimo.get_data_emp(),
+                                    "Data_devol" : emprestimo.get_data_devol(),
+                                    "Estado_emp" : "Emprestado"
+                                }
+                self.emprestimos.append(dict_emprestimo) 
+                self.historico_emprestimos.append(dict_emprestimo) 
                     
-                    dict_emprestimo = {
-                                        "Produto_ID" : p["ID"],
-                                        "Título" : emprestimo.get_produto(),
-                                        "Estado" : p["Estado"],
-                                        "Empréstimo_ID" : emprestimo.get_id(),
-                                        "Nome" : emprestimo.get_nome(),
-                                        "Data_emp" : emprestimo.get_data_emp(),
-                                        "Data_devol" : emprestimo.get_data_devol()
-                                    }
-                    self.emprestimos.append(dict_emprestimo) 
-                    print("Empréstimo adicionado com sucesso!\n")
-                    return
 
-            else: 
-                print("Produto não encontrado!")
-                return
-
-    def obter_emprestimos(self):        
-        if self.emprestimos:
-            print("----------- EMPRÉSTIMOS ----------")
-            for e in self.emprestimos:
-                print(e)
-            print("----------------------------------")
-        else:
-            print("Não há empréstimos no momento!")
-
-    def atualizar_emprestimo(self, produto):
-        for e in self.emprestimos:
-            if e["Título"] == produto:
-                print("Qual das opções deseja atualizar:")
-                print("1. Nome")
-                print("2. Produto")
-                print("3. Data do Empréstimo")
-                print("3. Data da Devolução")
-                print("0. Voltar")
-
-                while True:
-                    op = input("Digite a opção desejada: ")
-
-                    if op == "1":
-                        novo_nome= input("Insira o novo nome do tomador do empréstimo: ").upper() 
-                        e["Nome"] = novo_nome
-                        print("Empréstimo atualizado com sucesso!")
-                        return    
-
-                    elif op == "2":
-                        novo_produto = input("Insira o título do novo produto a ser emprestado: ").upper()
-                        for p in self.produtos:
-                            if p["Título"] == novo_produto:
-                                e["Título"] = novo_produto
-                                e["Produto_ID"] = p["ID"]
-                                p["Estado"] = Produto.estado[1] #altera o estado do novo produto para emprestado
-                                
-                            if p["Título"] == produto:
-                                p["Estado"] = Produto.estado[0] #altera o estado do antigo produto para disponível
-                        print("Empréstimo atualizado com sucesso!")
-                        return
-
-                    elif op == "3":
-                        nova_data= input("Insira a nova data do empréstimo (dd/mm/aaaa): ")
-                        e["Data_emp"] = nova_data
-                        print("Empréstimo atualizado com sucesso!")
-                        return 
-
-                    elif op == "4":
-                        nova_data= input("Insira a nova data de devolução do empréstimo (dd/mm/aaaa): ")
-                        e["Data_devol"] = nova_data
-                        print("Empréstimo atualizado com sucesso!")
-                        return     
-
-                    elif op == "0":
-                        break
-
-                    else: 
-                        print("Opção incorreta!")
-                
-            else: 
-                print("Produto não encontrado!")
-                return
-
-    def entregar_produto(self, produto, data_devol):
-        for emprestimo in self.emprestimos:
-            if emprestimo["Título"] == produto:
-                if emprestimo["Estado"] == Produto.estado[1]:  # Verifica se o produto está emprestado                    
-                    opcao = input("Deseja entregar o produto (S/N)? ").upper()
-                    if opcao == "S":
-                        # Atualiza o estado do produto na lista de produtos
-                        for produto_lista in self.produtos:
-                            if produto_lista["Título"] == produto:
-                                produto_lista["Estado"] = Produto.estado[0]  # estado disponível
-
-                        # Adiciona o empréstimo devolvido à lista de empréstimos
-                        emp = Emprestimo(emprestimo["Nome"], emprestimo["Data_emp"], data_devol)
-                        emprestimo_devolvido = {
-                            "Produto_ID": emprestimo["Produto_ID"],
-                            "Título": emprestimo["Título"],
-                            "Estado": Produto.estado[2],  # estado devolvido
-                            "Devolução_ID": emp.get_id(),
-                            "Nome": emprestimo["Nome"],
-                            "Data_emp": emprestimo["Data_emp"],
-                            "Data_devol": data_devol
-                        }
-                        self.emprestimos.append(emprestimo_devolvido)
-                        
-                        print("Produto devolvido com sucesso!")
-                        return
-                                                
-                    elif opcao == "N":
-                        return
-                    else:
-                        print("Opção inválida!")
-                        return
-                else:
-                    print("O produto não está emprestado!")
-                    return
-            else: 
-                print("Produto não existe!")
-            return
-        else:
-            print("Não existem produtos emprestados!")
-            return
- 
-    
-    def eliminar_emprestimo(self, produto):
+    def obter_emprestimos(self, emprestimo_id):        
         for p in self.emprestimos:
-            if p["Título"] == produto:
-                self.emprestimos.remove(p)
-                print("Empréstimo eliminado com sucesso!")
-                return
+            if str(p["Empréstimo_ID"]) == str(emprestimo_id):
+                return p
 
-            else: 
-                print("Empréstimo não encontrado!")
-        return
-
-############################################################################################# 
+    
+    def eliminar_emprestimo(self, emprestimo):
+        for e in self.emprestimos:
+            if str(e["Empréstimo_ID"]) == str(emprestimo):                
+                self.emprestimos.remove(e)
+          
+ 
 ######################################  RELARÓRIOS  ######################################### 
-############################################################################################# 
-
     
     def listar_produtos_alfa(self):
         produtos_ordenados_alfa = sorted(self.produtos, key=lambda produto: produto["Título"])
@@ -377,7 +160,7 @@ class Gestao:
             if p["Estado"] == "emprestado":
                 print(p)
 
-    def historico_emprestimos(self, produto):
+    def listar_historico_emprestimos(self, produto):
         produtos_ordenados_data_emp = sorted(self.emprestimos, key=lambda emprestimo: emprestimo["Data_emp"], reverse=True)
         for p in produtos_ordenados_data_emp:
             if p["Título"] == produto:
@@ -387,16 +170,3 @@ class Gestao:
                     if prod["Título"] == produto:
                         print("Estado Atual:", prod["Estado"])
                         
-
-""" def historico_emprestimos(self, produto):
-    produtos_ordenados_data_emp = sorted(self.emprestimos, key=lambda emprestimo: emprestimo["Data_emp"], reverse=True)
-    for p in produtos_ordenados_data_emp:
-        if p["Título"] == produto:
-            for prod in self.produtos:
-                if prod["Título"] == produto:
-                    print("Estado Atual:", prod["Estado"])
-                    print("Histórico de Empréstimos do Produto ->", produto)
-                    print(p)
-                    break  # Adicionado para evitar imprimir histórico de outros produtos
- """
-        

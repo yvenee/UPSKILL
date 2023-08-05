@@ -10,6 +10,8 @@ from gestao import *
 from produto import *
 from emprestimo import *
 from produto_tk import *
+from emprestimo_tk import *
+from relatorios_tk import *
 
 
 class MediatecaApp(ThemedTk):
@@ -20,7 +22,7 @@ class MediatecaApp(ThemedTk):
 
         self.title("Mediateca")
         self.minsize(530, 400)  # Define o tamanho mínimo da janela
-        self.maxsize(700, 800)  # Define o tamanho máximo da janela igual ao tamanho mínimo
+        self.maxsize(900, 800)  # Define o tamanho máximo da janela igual ao tamanho mínimo
         self.resizable(False, False)  # Impede o redimensionamento da janela
 
         # Cria uma style para os botões
@@ -169,42 +171,34 @@ class MenuGestaoEmprestimos(tk.Frame):
         for widget in self.winfo_children():
             widget.pack_forget()
             
-        # Botão "Criar Emréstimo"
-        botao_criar_emprestimo = ttk.Button(self, text="Criar Empréstimo", command=self.criar_emprestimo, style="My.TButton", width=25)        
+        # Botão "Criar Emréstimo"      
+        botao_criar_emprestimo = ttk.Button(self, text="Criar Empréstimo", command=self.criar_emprestimos, style="My.TButton", width=25)        
         botao_criar_emprestimo.grid(row=0, column=0, padx=5, pady=5)
 
-        # Botão "Listar Empréstimos"
-        botao_listar_emprestimos = ttk.Button(self, text="Listar Empréstimos", command=self.listar_emprestimos, style="My.TButton", width=25)
-        botao_listar_emprestimos.grid(row=0, column=1, padx=5, pady=5)
-
-        # Botão "Atualizar Empréstimos"
-        botao_atualizar_emprestimo = ttk.Button(self, text="Atualizar Empréstimo", command=self.atualizar_emprestimo, style="My.TButton", width=25)
-        botao_atualizar_emprestimo.grid(row=1, column=0, padx=5, pady=5)
-
-         # Botão "Eliminar Empréstimo"
-        botao_eliminar_emprestimo = ttk.Button(self, text="Eliminar Empréstimo", command=self.eliminar_emprestimo, style="My.TButton", width=25)
-        botao_eliminar_emprestimo.grid(row=1, column=1, padx=5, pady=5)
-
-        # Botão "Entregar Produto"
-        botao_entregar_produto = ttk.Button(self, text="Entregar Produto", command=self.entregar_produto, style="My.TButton", width=58)
-        botao_entregar_produto.grid(row=2, column=0, columnspan=2, padx=5, pady=5)     
+        # Botão "Gerir Empréstimos"
+        botao_gerir_emprestimos = ttk.Button(self, text="Gerir Empréstimos", command=self.gerir_emprestimos, style="My.TButton", width=25)
+        botao_gerir_emprestimos.grid(row=0, column=1, padx=5, pady=5)        
 
         # Botão "Voltar"
         botao_voltar = ttk.Button(self, text="Voltar", command=self.voltar_menu_principal, style="My.TButton", width=25)
-        botao_voltar.grid(row=3, column=0, padx=10, pady=5)
+        botao_voltar.grid(row=1, column=0, padx=10, pady=5)
 
         # Botão "Sair"
         botao_sair = ttk.Button(self, text="Sair", command=self.master.destroy, style="My.TButton", width=25)
-        botao_sair.grid(row=3, column=1, padx=10, pady=5)
+        botao_sair.grid(row=1, column=1, padx=10, pady=5)
 
 
-    def criar_emprestimo(self):
-        # Implemente a lógica para a criação de empréstimo aqui
-        print("Criar Empréstimo selecionado!")
+    def criar_emprestimos(self):
+        # Limpa a frame atual e cria uma nova instância de Produto_Frame
+        self.master.clear_frames()
+        self.master.criar_emprestimo_frame = Produtos_Disponiveis_Frame(self.master, gestao)
+        self.master.criar_emprestimo_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
 
-    def listar_emprestimos(self):
-        # Implemente a lógica para a listagem de empréstimos aqui
-        print("Listar Empréstimos selecionado!")
+    def gerir_emprestimos(self):
+        # Limpa a frame atual e cria uma nova instância de Produto_Frame
+        self.master.clear_frames()
+        self.master.gerir_emprestimos_frame = Gerir_Emprestimos_Frame(self.master, gestao)
+        self.master.gerir_emprestimos_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
 
     def atualizar_emprestimo(self):
         # Implemente a lógica para a atualização de empréstimo aqui
@@ -260,7 +254,7 @@ class MenuRelatorios(tk.Frame):
         botao_listar_produtos_mult.grid(row=0, column=0, padx=5, pady=5)
 
         # Botão "Listar Produtos Emprestados"
-        botao_listar_produtos_emp = ttk.Button(self, text="Listar Produtos Emprestados", command=self.listar_produtos_emp, style="My.TButton", width=25)
+        botao_listar_produtos_emp = ttk.Button(self, text="Listar Produtos Emprestados", command=self.listar_produtos_estado, style="My.TButton", width=25)
         botao_listar_produtos_emp.grid(row=0, column=1, padx=5, pady=5)
 
         # Botão "Histórico de Empréstimos"
@@ -277,16 +271,22 @@ class MenuRelatorios(tk.Frame):
 
 
     def listar_produtos_mult(self):
-        # Implemente a lógica para a listar produtos multimedia aqui
-        print("Listar Produtos Multimedia selecionado!")
+        # Limpa a frame atual e cria uma nova instância de Listar Produtos Multimedia Frame
+        self.master.clear_frames()
+        self.master.listar_produtos_mult_frame = Listar_Produtos_Mult_Frame(self.master, gestao)
+        self.master.listar_produtos_mult_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
 
-    def listar_produtos_emp(self):
-        # Implemente a lógica para a listagem de Produtos Emprestados aqui
-        print("Listar Produtos Emprestados selecionado!")
+    def listar_produtos_estado(self):
+        # Limpa a frame atual e cria uma nova instância de Listar Produtos por Estado Frame
+        self.master.clear_frames()
+        self.master.listar_produtos_estado_frame = Listar_Produtos_Estado_Frame(self.master, gestao)
+        self.master.listar_produtos_estado_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
 
     def historico_emprestimos(self):
-        # Implemente a lógica para o Histórico de Empréstimos aqui
-        print("Histórico de Empréstimos selecionado!")
+        # Limpa a frame atual e cria uma nova instância de Listar Histórico de Empréstimos Frame
+        self.master.clear_frames()
+        self.master.historico_emprestimos_frame = Historico_Emprestimos_Frame(self.master, gestao)
+        self.master.historico_emprestimos_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
 
     def voltar_menu_principal(self):
             # Clear the current frame and show the main menu frame

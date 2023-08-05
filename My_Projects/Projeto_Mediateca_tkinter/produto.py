@@ -6,7 +6,7 @@ class Produto:
 
     estado = ("disponível", "emprestado", "devolvido")
     tipo = ("Publicação", "Vídeo", "Áudio")
-    id = 0
+    id = 4
 
     def __init__(self, tipo, media, titulo, preco, data):
         self.__id = Produto.criar_id()
@@ -19,6 +19,7 @@ class Produto:
         self.estado = Produto.estado[0]
 
     def criar_id():
+        # if Produto.id != 0:
         Produto.id += 1   
         return str(Produto.id)
 
