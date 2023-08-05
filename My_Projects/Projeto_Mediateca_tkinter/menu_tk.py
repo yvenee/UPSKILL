@@ -61,7 +61,7 @@ class FrameImagem(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        imagem_path = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/mediateca_img.png"
+        imagem_path = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/mediateca_img.png"
         imagem = Image.open(imagem_path)
         imagem = imagem.resize((500, 200))  # Redimensione a imagem conforme necessário
         imagem = ImageTk.PhotoImage(imagem)
@@ -199,18 +199,6 @@ class MenuGestaoEmprestimos(tk.Frame):
         self.master.clear_frames()
         self.master.gerir_emprestimos_frame = Gerir_Emprestimos_Frame(self.master, gestao)
         self.master.gerir_emprestimos_frame.grid(row=1, column=0, padx=3, pady=3, sticky="nsew")
-
-    def atualizar_emprestimo(self):
-        # Implemente a lógica para a atualização de empréstimo aqui
-        print("Atualizar Empréstimo selecionado!")
-
-    def entregar_produto(self):
-        # Implemente a lógica para a entrega de produtos aqui
-        print("Entregar Produto selecionado!")
-
-    def eliminar_emprestimo(self):
-        # Implemente a lógica para a eliminação de empréstimo aqui
-        print("Eliminar Empréstimo selecionado!")
 
     def voltar_menu_principal(self):
         # Clear the current frame and show the main menu frame

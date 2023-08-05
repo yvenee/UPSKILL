@@ -278,7 +278,7 @@ class Criar_Produto_Frame(tk.Frame):
         message += f"Preço: €{produto.preco:.2f}\n"
         message += f"Data de Aquisição: {produto.data.strftime('%d/%m/%Y')}\n"
         message += f"Tipo de Media: {produto.tipo}\n"
-        img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/success_icon.png"
+        img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/success_icon.png"
 
         if produto.tipo == "Publicação":
             message += f"Tipo de Publicação: {media.tipo_pub}\n"
@@ -594,13 +594,12 @@ class Gerir_Produtos_Frame(tk.Frame):
        
 
         if tipo_midia_info["Tipo"] == "Publicação":
-            print("Entrou no IF")    
             message = f"Tipo de Publicação: {tipo_midia_info['Media']['Tipo de Publicação']}\n"
             message += f"Data da Publicação: {tipo_midia_info['Media']['Data da Publicação']}\n"
             message += f"Editora: {tipo_midia_info['Media']['Editora']}\n"
             message += f"Autores: {tipo_midia_info['Media']['Autores']}\n"
             message += f"Suporte: {tipo_midia_info['Media']['Suporte']}\n" 
-            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/publication_icon.png"       
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/publication_icon.png"       
             
             show_custom_messagebox("Mais Detalhes", message, 300, 350, img)
 
@@ -609,7 +608,7 @@ class Gerir_Produtos_Frame(tk.Frame):
             message = f"Tipo de Vídeo: {tipo_midia_info['Media']['Tipo de Vídeo']}\n"
             message += f"Duração: {tipo_midia_info['Media']['Duração']}\n"
             message += f"Atores: {tipo_midia_info['Media']['Atores']}\n"
-            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/video_icon.png"   
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/video_icon.png"   
             
             
             show_custom_messagebox("Mais Detalhes", message, 300, 350, img)
@@ -620,7 +619,7 @@ class Gerir_Produtos_Frame(tk.Frame):
             message = f"Tipo de Áudio: {tipo_midia_info['Media']['Suporte']}\n"
             message += f"Duração: {tipo_midia_info['Media']['Duração']}\n"
             message += f"Trilhas: {tipo_midia_info['Media']['Trilhas']}\n"
-            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/audio_icon.png"   
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/audio_icon.png"   
 
             show_custom_messagebox("Mais Detalhes", message, 300, 350, img)
 
@@ -797,7 +796,7 @@ class Gerir_Produtos_Frame(tk.Frame):
             # Exibir mensagem de sucesso
             title = "Atualização de Produto"
             message = "Produto atualizado com sucesso!"
-            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/success_icon.png" 
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/success_icon.png" 
             show_custom_messagebox(title, message, 350, 350, img)
 
             # Retornar ao menu anterior
@@ -819,18 +818,18 @@ class Gerir_Produtos_Frame(tk.Frame):
         for produto in self.gestao.produtos:           
             
             if str(produto["ID"]) == produto_id:
-                print("Entrou IF ID!!")
-                if produto["Estado"] == "emprestado" or produto["Estado"] == "devolvido":
-                    print("Entrou IF Estado!!")
+               
+                if produto["Estado"] == "emprestado" or produto["Estado"] == "devolvido":        
 
                     message = "Não é possível exluir um produto que já foi emprestado!"
-                    img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/error_icon.png" 
+                    img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/error_icon.png" 
                     show_custom_messagebox("Produto", message, 300, 300, img)                 
                     return
+
                 else:                     
                     self.gestao.eliminar_produto(produto_id)
                     message = "Produto excluído com sucesso!"
-                    img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/success_icon.png" 
+                    img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/success_icon.png" 
                     show_custom_messagebox("Produto", message, 300, 300, img)    
 
         # Excluir o item selecionado na treeview

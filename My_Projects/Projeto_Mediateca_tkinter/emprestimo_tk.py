@@ -215,7 +215,7 @@ class Criar_Emprestimo_Frame(tk.Frame):
         # Exibir uma mensagem de sucesso
         title = "Empréstimo Criado"
         message = "O empréstimo foi criado com sucesso!"
-        img =  "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/success_icon.png"
+        img =  "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/success_icon.png"
         show_custom_messagebox(title, message, 350, 350, img)
 
         # Atualizar as frames para refletir o novo estado
@@ -352,7 +352,7 @@ class Gerir_Emprestimos_Frame(tk.Frame):
             message += f"Editora: {emprestimo_info['Produto']['Media']['Editora']}\n"
             message += f"Autores: {emprestimo_info['Produto']['Media']['Autores']}\n"
             message += f"Suporte: {emprestimo_info['Produto']['Media']['Suporte']}\n" 
-            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/publication_icon.png"       
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/publication_icon.png"       
             
             show_custom_messagebox("Mais Detalhes", message, 300, 350, img)
 
@@ -361,7 +361,7 @@ class Gerir_Emprestimos_Frame(tk.Frame):
             message += f"Tipo de Vídeo: {emprestimo_info['Produto']['Media']['Tipo de Vídeo']}\n"
             message += f"Duração: {emprestimo_info['Produto']['Media']['Duração']}\n"
             message += f"Atores: {emprestimo_info['Produto']['Media']['Atores']}\n"
-            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/video_icon.png"   
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/video_icon.png"   
             
             
             show_custom_messagebox("Mais Detalhes", message, 300, 350, img)
@@ -372,7 +372,7 @@ class Gerir_Emprestimos_Frame(tk.Frame):
             message += f"Tipo de Áudio: {emprestimo_info['Produto']['Media']['Suporte']}\n"
             message += f"Duração: {emprestimo_info['Produto']['Media']['Duração']}\n"
             message += f"Trilhas: {emprestimo_info['Produto']['Media']['Trilhas']}\n"
-            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/audio_icon.png"   
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/audio_icon.png"   
 
             show_custom_messagebox("Mais Detalhes", message, 300, 350, img)
 
@@ -473,7 +473,7 @@ class Gerir_Emprestimos_Frame(tk.Frame):
             # Exibir mensagem de sucesso
             title = "Atualização de Empréstimo"
             message = "Empréstimo atualizado com sucesso!"
-            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/success_icon.png" 
+            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/success_icon.png" 
             show_custom_messagebox(title, message, 350, 350, img)
 
             # Retornar ao menu anterior
@@ -537,14 +537,14 @@ class Gerir_Emprestimos_Frame(tk.Frame):
                 # Exibir mensagem de sucesso
                 title = "Produto Devolvido"
                 message = "Produto devolvido com sucesso!"
-                img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/success_icon.png" 
+                img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/success_icon.png" 
                 show_custom_messagebox(title, message, 350, 350, img)
             
             else:
                 # Exibir mensagem de sucesso
                 title = "Produto Devolvido"
                 message = "Não é possível devolver o produto"
-                img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/success_icon.png" 
+                img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/success_icon.png" 
                 show_custom_messagebox(title, message, 350, 350, img)
                 
     
@@ -587,23 +587,19 @@ class Gerir_Emprestimos_Frame(tk.Frame):
             if str(emprestimo["Empréstimo_ID"]) == str(emprestimo_id):
                 if emprestimo["Estado_emp"] == "Devolvido":
                     message = "Não é possível excluir um empréstimo já devolvido!"
-                    img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/error_icon.png" 
+                    img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/error_icon.png" 
                     show_custom_messagebox("Produto", message, 300, 300, img)                 
-                    return 
+                    return
+                    
                 else: 
                     for produto in self.gestao.produtos:
                         if produto["ID"] == emprestimo["Produto_ID"]:
                             produto["Estado"] = "disponível"
                             self.gestao.eliminar_emprestimo(emprestimo_id)                    
                             message = "Produto excluído com sucesso!"
-                            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/success_icon.png" 
+                            img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/img/success_icon.png" 
                             show_custom_messagebox("Produto", message, 300, 300, img)  
                     
-            else:
-                message = "Empréstimo não encontrado!"
-                img = "/Users/yveneeschneider/UPSKILL/My_Projects/Projeto_Mediateca_tkinter/error_icon.png" 
-                show_custom_messagebox("Produto", message, 300, 300, img)                 
-                return  
 
         # Excluir o item selecionado na treeview
         self.tree.delete(selected_item)

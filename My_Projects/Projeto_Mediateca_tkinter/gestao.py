@@ -144,29 +144,3 @@ class Gestao:
             if str(e["Empréstimo_ID"]) == str(emprestimo):                
                 self.emprestimos.remove(e)
           
- 
-######################################  RELARÓRIOS  ######################################### 
-    
-    def listar_produtos_alfa(self):
-        produtos_ordenados_alfa = sorted(self.produtos, key=lambda produto: produto["Título"])
-        print(produtos_ordenados_alfa)
-
-    def listar_produtos_data(self):
-        produtos_ordenados_data = sorted(self.produtos, key=lambda produto: produto["Data_Aquisição"], reverse=True)
-        print(produtos_ordenados_data)
-
-    def listar_produtos_emprestados(self):
-        for p in self.produtos:
-            if p["Estado"] == "emprestado":
-                print(p)
-
-    def listar_historico_emprestimos(self, produto):
-        produtos_ordenados_data_emp = sorted(self.emprestimos, key=lambda emprestimo: emprestimo["Data_emp"], reverse=True)
-        for p in produtos_ordenados_data_emp:
-            if p["Título"] == produto:
-                print("Histórico de Empréstimos do Produto ->", produto)
-                print(p)
-                for prod in self.produtos:
-                    if prod["Título"] == produto:
-                        print("Estado Atual:", prod["Estado"])
-                        
