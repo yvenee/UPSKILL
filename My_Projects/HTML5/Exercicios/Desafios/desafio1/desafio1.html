@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyWork</title>
+<style>
+  .search-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .search-container form {
+    display: inline-block;
+  }
+  .search-container input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    width: 200px;
+  }
+  .search-container button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+  }
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .social-icons{
+    max-width: 800px;
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  ul li {
+    margin-bottom: 10px;
+  }
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+  .top-link {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h2>MyWork</h2>
+</header>
+<div class="container" style="text-align:center;">
+    <div id="topo"></div>    
+    <!-- Barra de pesquisa do Google -->
+    <div class="search-container">
+      <form action="https://www.google.com/search" method="GET" target="_blank">
+        <input type="hidden" name="q" value="python">
+        <input type="text" name="q" value="Python" placeholder="Pesquisar no Google">
+        <button type="submit">Pesquisar</button>
+      </form>
+    </div>
+</div>
+<div class="container">
+  <!-- <div id="topo"></div> -->
+  
+  <h2>Ferramentas Favoritas</h2>
+  <div class="container">
+  <ul>
+    <li>    
+      <a href="https://code.visualstudio.com/" target="_blank">
+        <img src="imagens/vscode_img.jpeg"  alt="VS Code">
+      </a> 
+      <h3>Vs Code</h3>
+      <p>
+        O Visual Studio Code é um editor de código-fonte desenvolvido pela Microsoft para Windows, Linux e macOS. Ele inclui suporte para depuração, controle de versionamento Git incorporado, realce de sintaxe, complementação inteligente de código, snippets e refatoração de código.
+      </p>   
+    </li>    
+  </ul>
+  </div>
+  <h2>Sites Favoritos</h2>
+  <div class="container">
+  <ul>
+    <li>
+        
+        <a href="https://www.w3schools.com/" target="_blank">
+            <img src="imagens/w3schools_img.png"  alt="W3 Schools">
+        </a> 
+        <h3>W3 Schools</h3>
+        <p>
+            W3Schools é um site educacional voltado ao aprendizado de tecnologias web. Seu conteúdo inclui tutoriais e referências relacionadas a HTML, CSS, JavaScript, JSON, PHP, Python, AngularJS, SQL, Bootstrap, Node.js, jQuery, XQuery, AJAX, XML, e Java.
+        </p>   
+    </li>
+    <li>
+        
+        <a href="https://chat.openai.com/" target="_blank">
+            <img src="imagens/chatgpt_img.png"  alt="Chat GPT">
+        </a> 
+        <h3>Chat GPT</h3>
+        <p>
+            ChatGPT é um chatbot online de inteligência artificial desenvolvido pela OpenAI, lançado em novembro de 2022. O nome "ChatGPT" combina "Chat", referindo-se à sua funcionalidade de chatbot, e "GPT", que significa Generative Pre-trained Transformer, um tipo de modelo de linguagem grande.
+        </p> 
+    </li>
+    <li>
+      <a href="https://www.pythontutorial.net/" target="_blank">
+        <img src="imagens/pythontutorialnet_img.png" alt="Site 1">
+      </a> 
+      <h3>Python Tutorial</h3>
+        <p>
+            O Python Tutorial é um site que auxilia na compreensão da linguagem de programação Python, ajudando a aprender profundamente os conceitos e mostra como aplicar técnicas práticas de programação aos seus desafios específicos.
+        </p> 
+     
+    </li>
+    <li>     
+      <a href="https://stackoverflow.com/" target="_blank">
+        <img src="imagens/stackoverflow.png" alt="Site 2">
+      </a> 
+      <h3>Stack Overflow</h3>
+        <p>
+            Stack Overflow é um site de perguntas e respostas para profissionais e entusiastas na área de programação de computadores. É o principal site de capital fechado da Rede Stack Exchange.
+        </p>
+        </li>
+       
+  </ul>
+</div>
+<h2 align="center"  >Mais sobre mim</h2> 
+  <div class="social-icons">
+    <a href="https://www.linkedin.com/in/yvenee/" target="_blank">
+      <img src="imagens/linkedin_img.png" alt="LinkedIn" width="80">
+    </a>
+
+  </div>
+</div>
+<a href="#topo" class="top-link">&#8593;</a>
+</body>
+</html>

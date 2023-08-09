@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulário Elaborado</title>
+    <style>
+      .button-group {
+        text-align: right;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="action_page.php">
+      <fieldset>
+        <legend>Dados Pessoais:</legend>
+        Nome: <br />
+        <input type="text" name="firstname" autofocus required/><br />
+        Idade: <br />
+        <input type="number" name="age" required/><br /><br />
+      </fieldset>
+      <fieldset>
+        <legend>Dados Profissionais:</legend>
+        <label>Escolaridade</label>
+        <input list="escolaridade" required/>
+        <datalist id="escolaridade">
+          <option value="Ensino Básico"></option>
+          <option value="Ensino Médio"></option>
+          <option value="Ensino Superior"></option>
+        </datalist>
+        <br />
+        <label>Área de Atuação</label>
+        <input type="radio" id="gerencia" name="gerencia" value="gerencia"/>
+        <label for="gerencia">Gerência</label>
+        <input type="radio" id="financeiro" name="financeiro" value="financeiro"/>
+        <label for="financeiro">Financeiro</label>
+        <input type="radio" id="recepcao" name="recepcao" value="recepcao" />
+        <label for="recepcao">Recepção</label>
+      </fieldset>
+      <div class="button-group">
+        <input type="submit" value="Enviar"/>
+        <input type="button" value="Limpar"/>
+      </div>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Elaborado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="password"],
+        textarea,
+        select {
+            width: 96%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        input[type="radio"] + label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        .button-group {
+            text-align: right;
+            padding: 10px 0;
+        }
+        .radio-group {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form action="action_page.php">
+        <h1>Formulário</h1>
+        <fieldset>
+            <legend>Dados Pessoais</legend>
+            <label for="firstname">Nome:</label>
+            <input type="text" id="firstname" name="firstname" autofocus required />
+            
+            <label for="age">Idade:</label>
+            <input type="number" id="age" name="age" required />
+            
+            <label for="birthdate">Data de Nascimento:</label>
+            <input type="date" id="birthdate" name="birthdate" min="1900-01-01" max="2019-12-31" required />
+
+            <div class="radio-group">
+                <label>Sexo:</label>
+                <input type="radio" id="masculino" name="sexo" value="masculino" />
+                <label for="masculino">Masculino</label>
+                <input type="radio" id="feminino" name="sexo" value="feminino" />
+                <label for="feminino">Feminino</label>
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <legend>Dados de Contacto</legend>
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="endereco" name="endereco" required />
+            
+            <label for="codigo">Código Postal:</label>
+            <input type="number" id="codigo" name="codigo" required />
+
+            <label for="cidade">Cidade:</label>
+            <input list="cidade" required placeholder="Viseu" />
+            <datalist id="cidade">
+                <option value="Viseu"></option>
+                <option value="Lamego"></option>
+                <option value="Porto"></option>
+                <option value="Lisboa"></option>
+            </datalist>
+            <br>
+            <label for="telefone">Telefone (Formato: +351 123 456 789):</label>
+            <input type="tel" id="telefone" name="telefone" pattern="^\+351\s\d{3}\s\d{3}\s\d{3}$" required />
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+        </fieldset>
+        
+        <fieldset>
+            <legend>Outras Informações</legend>
+            <label for="notas">Notas:</label>
+            <textarea id="notas" name="notas" cols="10" rows="5" placeholder="Escreva aqui as suas notas"></textarea>
+        </fieldset>
+
+        <div class="button-group">
+            <input type="submit" value="Submeter" />
+        </div>
+    </form>
+</body>
+</html>

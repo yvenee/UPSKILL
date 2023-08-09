@@ -1,0 +1,80 @@
+<!-- Crie uma página HTML (utilizando uma folha de estilos interna) que cumpra os seguintes
+requisitos:
+a) Cor de fundo (background) da página com a cor #E7EBF0;
+b) Título (heading) de grau 1 com o nome da expressão CSS por extenso;
+c) Todos os títulos de grau 1 da página com:
+i) Cor do texto vermelha;
+ii) Cor de fundo verde;
+d) Um pequeno parágrafo com uma breve explicação sobre o que é o CSS;
+e) Tipo de letra do tipo “Verdana”, “Arial”;
+f) Tamanho de letra de 16 pixels;
+g) Cor de fundo azul claro (apenas este parágrafo);
+h) No parágrafo criado no passo anterior, deverá ainda colocar em “destaque” um conjunto de
+palavras (à sua escolha, e que estejam preferencialmente a meio do parágrafo) com as
+características a negrito e a cor de fundo amarelo;
+i) Um segundo parágrafo com uma breve explicação sobre a função e valores permitidos pelo
+atributo color;
+i) Tipo de letra do tipo “Serif”, “Arial”;
+ii) Tamanho de letra de 12 pixels;
+iii) Todo o texto a sublinhado e itálico;
+iv) Imagem de fundo com o logotipo do Curso; -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        background-color: #e7ebf0;
+        font-family: "Verdana", "Arial", sans-serif;
+        font-size: 16px;
+      }
+
+      h1 {
+        color: red;
+        background-color: green;
+      }
+
+      p.unique {
+        background-color: lightblue;
+      }
+
+      p.highlight {
+        background-color: yellow;
+        font-weight: bold;
+      }
+
+      p.explanation {
+        font-family: "Serif", "Arial", sans-serif;
+        font-size: 12px;
+        font-style: italic;
+        text-decoration: underline;
+        background-image: url("/My_Projects/CSS3/Exercicios/Fichadetrabalho1/Exercicio3/upskill_img.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 800px;
+        height: 650px;
+      }
+
+      .logo {
+        
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Cascading Style Sheets (CSS)</h1>
+    <p class="unique">
+      Um conjunto de
+      <b style="background-color: yellow">regras</b>
+      que define como os
+      <b style="background-color: yellow"> elementos HTML</b> devem ser exibidos
+      no navegador.
+    </p>
+    <p class="explanation">
+      A propriedade <code>color</code> é usada para definir a cor do texto em
+      elementos HTML. Ela pode receber valores em palavras-chave (como "red",
+      "blue", etc.) ou em códigos hexadecimais (#RRGGBB).
+    </p>
+    <div class="logo"></div>
+  </body>
+</html>

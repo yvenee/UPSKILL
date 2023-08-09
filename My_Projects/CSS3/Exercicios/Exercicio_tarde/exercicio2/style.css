@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    background-color: red;
+    color: white;
+    padding: 10px;
+}
+
+p {
+    background-color: green;
+    padding: 10px;
+    border: 2px solid blue;
+}
+
+h3 {
+    background-color: rgba(255, 99, 71, 0.6);
+    padding: 10px;
+}
