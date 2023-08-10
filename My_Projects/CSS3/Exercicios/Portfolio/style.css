@@ -92,3 +92,8 @@ header h1 {
     display: block;
     margin: 0 left; /* Center the image horizontally */
 }
+
+.social-media a {
+    display: inline-block; /* Display elements on the same line */
+    margin: 0 10px; /* Add some space between the icons */
+}
