@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee and Department Information</title>
+</head>
+<body>
+    <h1>Department Information</h1>
+    <ul>
+        {% for department in departments %}
+            <li>
+                <strong>{{ department.name }}</strong>
+                <ul>
+                    {% for employee in department.employees %}
+                        <li>{{ employee.name }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

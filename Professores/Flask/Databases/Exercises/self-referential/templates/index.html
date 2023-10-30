@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Users and Followers</title>
+</head>
+<body>
+    <h1>Users and their Followers</h1>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.username }} is followed by:
+                <ul>
+                    {% for follower in user.followers %}
+                        <li>{{ follower.username }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{% block content %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'loginn.css' %}">
+    <title>Evento</title>
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="container">
+      <section id="formHolder">  
+
+        <div class="row">
+   
+          <!-- Form Box -->
+          <div class="col-sm-6 form">
+
+  
+            <!-- Login Form -->
+            <div class="login form-peice">
+                <h1>Evento</h1>
+             
+              <form id="event_form" class="login-form" action="submit" method="POST">{% csrf_token %}
+                <div hidden>
+                <input type="number" name="event_id" value="{{event.id}}" ><!-- foi criado esse input para que fosse possível pegar o id para ser possível editar o evento-->
+                </div>
+                <div class="form span.error" align="center">
+                  {% for message in messages %}
+                  <strong>Error: </strong> {{ message }}
+                  {% endfor %}
+              </div>
+                <div class="form-group">
+                    <label for="">Título</label>
+                </div>
+  
+                <div class="form-group">
+                    <input  type="text" name="title" size="24" value="{{event.title}}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="">Data do Evento</label>
+                    <input id="event_date" type="datetime-local" name="event_date" value={{event.get_date_input_event}} required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="">Descrição</label>              
+                    <textarea name="description" cols="90" rows="10">{{event.description}}</textarea>
+                </div>
+                <div align="center">
+                  <a class="CTA" >
+                      <input type="submit" name="save" value="Salvar">
+                  </a>
+                  <a class="CTA" href="/">
+                      <input type="button" value="Cancelar">
+                  </a>            
+                </div>      
+              </form>
+              {% endblock %}
+             
+            </div>       
+          </div>
+        </div>
+  
+      </section>
+      
+      <footer>
+        <p>
+          Form made by: <a href="/agenda" target="_blank">Yvenee Schneider</a>
+        </p>
+      </footer>
+      
+    </div>
+
+    <script>
+      window.onload = function() {
+         document.getElementById("event_form").addEventListener("submit", function(event){
+              var event_date = document.getElementById("event_date").value;
+
+              if (!event_date) {
+                  alert("Por favor, insira a data do evento!");
+                  event.preventDefault(); // impede o envio do formulário
+              }
+         });
+      }
+  </script>
+
+</body>
+</html>

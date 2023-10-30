@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Students and Courses</title>
+</head>
+<body>
+    <h1>Students and their Courses</h1>
+    <ul>
+        {% for student in students %}
+            <li>{{ student.name }} is enrolled in:
+                <ul>
+                    {% for course in student.courses %}
+                        <li>{{ course.name }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

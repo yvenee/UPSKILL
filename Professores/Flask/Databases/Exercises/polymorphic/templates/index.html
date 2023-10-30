@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comments for Posts</title>
+</head>
+<body>
+    <h1>Posts and Comments</h1>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <strong>{{ post.title }}</strong>
+                <p>{{ post.content }}</p>
+                <ul>
+                    {% for comment in post.comments %}
+                        <li>{{ comment.commenter_name }} says: {{ comment.content }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+

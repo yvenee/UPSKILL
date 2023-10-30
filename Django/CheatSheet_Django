@@ -1,0 +1,40 @@
+######  CHEAT SHEET - DJANGO ######
+
+
+##### URLS
+
+## Módulo "urls.py" : local onde se insere as urls ###
+
+- imports: 
+from django.contrib import admin
+from django.urls import path
+
+- Default para view admin:
+path('admin/', admin.site.urls),
+
+- Redireciona a view index para uma outra view 
+
+1. Através do redirect na view:
+
+- imports: 
+from core import views **core é o nome da app**
+
+path('', views.index),
+
+**nota: na views.py tem que ter uma função que faça o redirect para a página pretendida.**
+
+exemplo:
+def index(resquest):
+    return redirect('/agenda/') 
+
+2. Através do redirect direto:
+
+- imports: 
+from django.views.generic import RedirectView
+
+path('', RedirectView.as_view(url='/agenda/')), 
+
+**nota: redireciona diretamente para url. Não precisa da função na views.py**
+
+
+

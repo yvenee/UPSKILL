@@ -1,0 +1,70 @@
+{% extends "model-page.html" %}
+{% load static %}
+
+
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<body>
+<div class="container">
+
+    <div class="container">
+      <section id="formHolder">  
+
+        <div class="row">
+   
+          <!-- Form Box -->
+          <div class="col-sm-6 form">
+
+  
+            <!-- Login Form -->
+            <div class="login form-peice">
+                <h1>Histórico de Eventos</h1>        
+                
+                <!-- Início da tabela -->
+                <table class="table" style="font-size: 15px;">
+                <!-- <table class="table-responsive" style="font-size: 15px;"> -->
+                    <thead>
+                        <tr>
+                            <th align="left">Título</th>
+                            <th align="left">Descrição</th>
+                            <th align="left">Data do Evento</th>
+                            <th align="left">Data da Criação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events %}
+                        <tr>
+                            <td>
+                                <a href="/agenda/evento/?id={{event.id}}">{{ event.title }}</a>
+                            </td>
+                            <td>{{ event.description }}</td>
+                            <td>{{ event.event_date|date:"d M Y - H:i" }}</td>
+                            <td>{{ event.create_date|date:"d M Y - H:i"}}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <!-- Fim da tabela --> 
+                
+
+
+                <div class="CTA" align="center">
+                    <a href="/">
+                        <input type="submit" value="Voltar">
+                    </a>
+
+            </div><!-- End Login Form -->    
+            
+            </div>      
+          </div>
+        </div>
+  
+      </section>
+
+    </div>
+</body>
+{% endblock %}
+</html>

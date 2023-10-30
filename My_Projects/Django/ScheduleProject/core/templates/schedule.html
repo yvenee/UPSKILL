@@ -1,0 +1,94 @@
+
+{% extends "model-page.html" %}
+{% load static %}
+
+
+{% block content %}
+
+    <!-- <link rel="stylesheet" href="{% static 'style.css' %}"> -->
+    <title>Agenda</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $('.delete-btn').click(function(e) {
+            e.preventDefault();
+            var parent = $(this).parent();
+            $.ajax({
+                type: 'get',
+                url: $(this).attr('href'), 
+                success: function() {
+                    parent.fadeOut(300, function() {
+                        $(this).remove();
+                    });
+                }
+            });
+        });
+    </script>
+
+<body>
+<div class="container">
+
+    <div class="container">
+      <section id="formHolder">  
+
+        <div class="row">
+   
+          <!-- Form Box -->
+          <div class="col-sm-6 form">
+
+            <div class="login form-peice">
+                <h1>Eventos Agendados</h1>          
+
+                <div class="CTA" align="center" style="padding-bottom: 30px;">
+                    <a href="evento/">
+                        <input type="submit" value="Novo Evento">
+                    </a>
+                    <a href="historico/">
+                        <input type="submit" value="Histórico de Eventos">
+                    </a>
+                </div>
+
+                <!-- Início da tabela -->
+<table class="table" style="font-size: 15px;">
+    <thead>
+        <tr>
+            <th align="left">Título</th>
+            <th align="left">Data</th>
+            <th align="left">Hora</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for event in events %}
+        <tr style={% if event.get_late_event %}"color:#f95959"{% endif %}>
+            <td>
+                <!-- <a href="evento/?id={{event.id}}">--> {{ event.title }}    <!-- </a> -->
+            </td>
+            <td>{{ event.event_date|date:"d M Y" }}</td>
+            <td>{{ event.event_date|time:"H:i" }}</td>
+            <td classe="col-button" align="right">
+                <a  href="evento/?id={{event.id}}">
+                    <input class="table_button" type="submit" value="Editar">
+                </a>
+            </td>
+            <td>
+                <a  href="evento/delete/{{event.id}}/">              
+                    <input class="table_button" type="submit" value="Excluir">
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- Fim da tabela --> 
+
+            </div>     
+          </div>
+        </div>
+  
+      </section>
+
+    </div>
+</body>
+{% endblock %}
+</html>

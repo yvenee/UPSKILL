@@ -1,0 +1,12 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'my_style.css' %}">
+    {% include "model-header.html" %}
+</head>
+<body>
+    {% block content %} {% endblock%}
+    {% include "model-footer.html" %}
+</body>
+</html>
